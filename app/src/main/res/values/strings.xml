@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">In My Garden</string>
+    <!--    Button Texts    -->
+    <string name="goals_button">Goals: %1$s/%2$s</string>
+    <string name="garden_button">Garden</string>
+    <!--    Content Descriptions    -->
+    <string name="flower_image">flower</string>
+    <string name="checklist_image">checklist</string>
+    <!--    Checklist Items    -->
+    <string name="checklist1">Water</string>
+    <string name="checklist2">Sun</string>
+    <string name="checklist3">Food</string>
 </resources>

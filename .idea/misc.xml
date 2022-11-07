@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/thomm/Documents/School/Fall2022/InMyGarden/In-My-Garden/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/thomm/Documents/School/Fall2022/InMyGarden/In-My-Garden/app/src/main/res/drawable-nodpi/checkbox_empty.xml" value="0.329" />
+        <entry key="..\:/Users/thomm/Documents/School/Fall2022/InMyGarden/In-My-Garden/app/src/main/res/drawable-nodpi/checkbox_filled.xml" value="0.329" />
+        <entry key="..\:/Users/thomm/Documents/School/Fall2022/InMyGarden/In-My-Garden/app/src/main/res/drawable-nodpi/checklist_image.xml" value="0.25" />
+        <entry key="..\:/Users/thomm/Documents/School/Fall2022/InMyGarden/In-My-Garden/app/src/main/res/layout/activity_main.xml" value="0.33" />
       </map>
     </option>
   </component>

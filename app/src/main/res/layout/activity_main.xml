@@ -2,17 +2,126 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="10dp"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <FrameLayout
+        android:id="@+id/flower_frame"
+        android:layout_width="@dimen/flower_image_width"
+        android:layout_height="@dimen/flower_image_height"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!--    Flower in pot   -->
+        <ImageView
+            android:id="@+id/flower"
+            android:layout_width="@dimen/flower_image_width"
+            android:layout_height="@dimen/flower_image_height"
+            android:layout_gravity="center"
+            android:contentDescription="@string/flower_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/flower" />
+
+        <!--    Checklist Rectangle   -->
+        <ImageView
+            android:id="@+id/checklist_image"
+            android:layout_width="@dimen/checklist_image_size"
+            android:layout_height="@dimen/checklist_image_size"
+            android:layout_marginTop="120dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/checklist_image"
+            android:src="@drawable/checklist_image"/>
+
+        <!--    Checklist Items   -->
+        <TextView
+            android:id="@+id/water_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/checklist1"
+            android:layout_gravity="center"
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:id="@+id/sun_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/checklist2"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:id="@+id/food_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/checklist3"
+            android:layout_gravity="center"
+            android:layout_marginTop="130dp"
+            android:layout_marginLeft="20dp" />
+
+        <!--    Check Boxes (in order top to bottom)  -->
+        <ImageView
+            android:id="@+id/water_checkbox"
+            android:layout_width="@dimen/checkbox_size"
+            android:layout_height="@dimen/checkbox_size"
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="-30dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/checklist_image"
+            android:src="@drawable/checkbox_empty"/>
+
+        <ImageView
+            android:id="@+id/sun_checkbox"
+            android:layout_width="@dimen/checkbox_size"
+            android:layout_height="@dimen/checkbox_size"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="-30dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/checklist_image"
+            android:src="@drawable/checkbox_empty"/>
+
+        <ImageView
+            android:id="@+id/food_checkbox"
+            android:layout_width="@dimen/checkbox_size"
+            android:layout_height="@dimen/checkbox_size"
+            android:layout_marginTop="130dp"
+            android:layout_marginLeft="-30dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/checklist_image"
+            android:src="@drawable/checkbox_empty"/>
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/goals_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/goals_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+    </Button>
+
+    <Button
+        android:id="@+id/garden_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/garden_button"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
