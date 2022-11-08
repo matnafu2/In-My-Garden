@@ -3,10 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/thomm/Documents/School/Fall2022/InMyGarden/In-My-Garden/app/src/main/res/drawable-nodpi/checkbox_empty.xml" value="0.329" />
-        <entry key="..\:/Users/thomm/Documents/School/Fall2022/InMyGarden/In-My-Garden/app/src/main/res/drawable-nodpi/checkbox_filled.xml" value="0.329" />
-        <entry key="..\:/Users/thomm/Documents/School/Fall2022/InMyGarden/In-My-Garden/app/src/main/res/drawable-nodpi/checklist_image.xml" value="0.25" />
-        <entry key="..\:/Users/thomm/Documents/School/Fall2022/InMyGarden/In-My-Garden/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/Mike/Desktop/UMD/FALL2022/CMSC436/In-My-Garden/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/Users/Mike/Desktop/UMD/FALL2022/CMSC436/In-My-Garden/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/Mike/Desktop/UMD/FALL2022/CMSC436/In-My-Garden/app/src/main/res/layout/activity_singup.xml" value="0.1" />
+        <entry key="..\:/Users/thomm/Documents/School/Fall2022/InMyGarden/In-My-Garden/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>
