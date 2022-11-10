@@ -48,7 +48,6 @@ class LoginActivity : AppCompatActivity() {
                     finish()
                 }
                 else { // sign in failed
-                    println("HANDLE EMPTY STRING AND NULL CASE");
                     Toast.makeText(applicationContext, task.exception?.message.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
