@@ -8,4 +8,16 @@
     <string name="progress_string">Progress</string>
     <string name="goal_string">Goal</string>
 
+=======
+    <!--    Button Texts    -->
+    <string name="goals_button">Goals: %1$s/%2$s</string>
+    <string name="garden_button">Garden</string>
+    <!--    Content Descriptions    -->
+    <string name="flower_image">flower</string>
+    <string name="checklist_image">checklist</string>
+    <!--    Checklist Items    -->
+    <string name="checklist1">Water</string>
+    <string name="checklist2">Sun</string>
+    <string name="checklist3">Food</string>
+>>>>>>> 6bcee9ab7022f21162e6db7a978045159d6a238e
 </resources>
