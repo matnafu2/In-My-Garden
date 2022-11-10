@@ -35,18 +35,32 @@ class LoginActivity : AppCompatActivity() {
 
     // logs in the user if the user already created an account
     private fun signinWithFireBase(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful) { // sign in is successful
-                Toast.makeText(applicationContext, "You are successfully logged in ", Toast.LENGTH_SHORT).show()
 
-                // send the user to the home page once logged in
-                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+        if (!email.equals("")) {
+
+            println("Email $email : password: $password")
+        }
+
+
+        // both email and password should be non-empty before using firebase authentication
+        if (!email.equals("") && !password.equals("")) {
+            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                if (task.isSuccessful) { // sign in is successful
+                    Toast.makeText(applicationContext, "You are successfully logged in ", Toast.LENGTH_SHORT).show()
+
+                    // send the user to the home page once logged in
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                else { // sign in failed
+                    println("HANDLE EMPTY STRING AND NULL CASE");
+                    Toast.makeText(applicationContext, task.exception?.message.toString(), Toast.LENGTH_SHORT).show()
+                }
             }
-            else { // sign in failed
-                Toast.makeText(applicationContext, task.exception?.message.toString(), Toast.LENGTH_SHORT).show()
-            }
+        }
+        else {
+            Toast.makeText(applicationContext, "You have to provide both email and password", Toast.LENGTH_SHORT).show()
         }
     }
 }
