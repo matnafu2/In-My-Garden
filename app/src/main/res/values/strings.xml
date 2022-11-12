@@ -7,11 +7,18 @@
     <string name="home_string">HOME</string>
     <string name="progress_string">Progress</string>
     <string name="goal_string">Goal</string>
+    <string name="custom_goal">CUSTOM</string>
+    <string name="oz">Some unit</string>
+    <string name="hr">Hours</string>
+    <string name="step">Steps</string>
+    <string name="cus">Custom Goal</string>
 
-=======
+
+    =======
     <!--    Button Texts    -->
     <string name="goals_button">Goals: %1$s/%2$s</string>
     <string name="garden_button">Garden</string>
+    <string name="button_add">Add</string>
     <!--    Content Descriptions    -->
     <string name="flower_image">flower</string>
     <string name="checklist_image">checklist</string>

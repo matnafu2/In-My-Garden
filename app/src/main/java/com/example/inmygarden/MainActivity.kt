@@ -8,8 +8,11 @@ import com.example.inmygarden.databinding.ActivityMainBinding
 
 // Binding to XML layout
 private lateinit var binding: ActivityMainBinding
+
 // View Model for keeping track of goals and their progress
-private lateinit var goalsViewModel: GoalsViewModel
+lateinit var goalsViewModel: GoalsViewModel
+
+
 // View Model for keeping track of garden state
 private lateinit var gardenviewModel: GardenViewModel
 
@@ -39,10 +42,16 @@ class MainActivity : AppCompatActivity() {
 //            startActivity(startGardenIntent)
         }
 
+
+
         // Create goals view model
         goalsViewModel = GoalsViewModel()
         // Tie the GoalsViewModel to the MainActivity lifecycle
         goalsViewModel.bindToActivityLifecycle(this)
+
+
+
+
 
         // Call function that watches for changes in the daily goal completion total
         beginObservingGoals()
@@ -50,11 +59,14 @@ class MainActivity : AppCompatActivity() {
         // Either sets goals to defaults or retrieves goals set by user
         goalsViewModel.setDefaultGoals()
 
+
+
         // Create garden view model
         gardenviewModel = GardenViewModel()
         // Tie the GardenViewModel to the MainActivity lifecycle
         gardenviewModel.bindToActivityLifecycle(this)
     }
+
 
     private fun beginObservingGoals() {
         // Set observer so that the text within the goals navigation button changes to reflect
@@ -68,6 +80,9 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+
+
+
 //>>>>>>> 6bcee9ab7022f21162e6db7a978045159d6a238e
     }
 }
