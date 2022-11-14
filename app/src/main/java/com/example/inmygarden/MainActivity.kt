@@ -1,5 +1,6 @@
 package com.example.inmygarden
 
+import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
@@ -30,8 +31,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.gardenButton.setOnClickListener {
-//            val startGardenIntent = Intent(this@MainActivity, GardenActivity::class.java)
-//            startActivity(startGardenIntent)
+            val startGardenIntent = Intent(this, GardenActivity::class.java)
+            startActivity(startGardenIntent)
         }
 
         // Create goals view model
