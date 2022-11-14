@@ -3,9 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Mike/Desktop/UMD/FALL2022/CMSC436/In-My-Garden/app/src/main/res/layout/activity_garden.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/Mike/Desktop/UMD/FALL2022/CMSC436/In-My-Garden/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/Mike/Desktop/UMD/FALL2022/CMSC436/In-My-Garden/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/Mike/Desktop/UMD/FALL2022/CMSC436/In-My-Garden/app/src/main/res/layout/activity_password_reset.xml" value="0.1693840579710145" />
         <entry key="..\:/Users/Mike/Desktop/UMD/FALL2022/CMSC436/In-My-Garden/app/src/main/res/layout/activity_singup.xml" value="0.1" />
+        <entry key="..\:/Users/Mike/Desktop/UMD/FALL2022/CMSC436/In-My-Garden/app/src/main/res/layout/fragment_reset_password.xml" value="0.22333333333333336" />
+        <entry key="..\:/Users/Mike/Desktop/UMD/FALL2022/CMSC436/In-My-Garden/app/src/main/res/layout/fragment_rest_password.xml" value="0.1693840579710145" />
+        <entry key="..\:/Users/Mike/Desktop/UMD/FALL2022/CMSC436/In-My-Garden/app/src/main/res/menu/user_menu.xml" value="0.22333333333333336" />
         <entry key="..\:/Users/thomm/Documents/School/Fall2022/InMyGarden/In-My-Garden/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="app/src/main/res/layout/activity_garden.xml" value="0.221794238988904" />
       </map>

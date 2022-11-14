@@ -10,4 +10,6 @@
     <string name="checklist1">Water</string>
     <string name="checklist2">Sun</string>
     <string name="checklist3">Food</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
