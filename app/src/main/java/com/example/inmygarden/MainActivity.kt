@@ -3,8 +3,11 @@ package com.example.inmygarden
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.example.inmygarden.databinding.ActivityMainBinding
+import com.google.firebase.auth.FirebaseAuth
 
 
 // Binding to XML layout
@@ -64,5 +67,26 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    // inflate the menu to the screen
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.user_menu, menu)
+        return true
+    }
+
+    // handles a click event from the menus
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // checks if the user clicks sign out
+        if (item.itemId == R.id.signout) {
+            // sign out the user
+            val auth = FirebaseAuth.getInstance().signOut()
+
+            // open the login activity after the user is signed out
+            val intent = Intent(this@MainActivity, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

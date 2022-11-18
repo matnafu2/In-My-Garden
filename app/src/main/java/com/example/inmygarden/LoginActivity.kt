@@ -31,6 +31,11 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this@LoginActivity, SignupActivity::class.java)
             startActivity(intent)
         }
+
+        binding.resetBtn.setOnClickListener {
+            val intent = Intent(this@LoginActivity, PasswordResetActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     // logs in the user if the user already created an account
@@ -54,6 +59,20 @@ class LoginActivity : AppCompatActivity() {
         }
         else {
             Toast.makeText(applicationContext, "You have to provide both email and password", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // until users sign out, they can login without typing the username and password
+    override fun onStart() {
+        super.onStart()
+        val user = FirebaseAuth.getInstance().currentUser
+
+        // user object will be null if the user has not logged in or singed out
+        if (user != null) { // user already logged
+            // send the user to home page without asking for user name and password
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }
