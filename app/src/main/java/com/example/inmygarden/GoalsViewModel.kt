@@ -9,9 +9,9 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
      * to a pair of integers. The first integer is the current progress (likely
      * beginning at 0), and the second integer is the goal.
      */
-    private val _goals: MutableLiveData<HashMap<String, Pair<Int, Int>>> =
-        MutableLiveData<HashMap<String, Pair<Int, Int>>>()
-    internal val goals: LiveData<HashMap<String, Pair<Int, Int>>>
+    private val _goals: MutableLiveData<HashMap<String, Int>> =
+        MutableLiveData<HashMap<String, Int>>()
+    internal val goals: LiveData<HashMap<String, Int>>
         get() = _goals
 
     // Holds the current number of completed goals for the day
@@ -32,10 +32,10 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
 
     internal fun setDefaultGoals() {
         // if no goals set
-        _goals.value = HashMap<String, Pair<Int, Int>>()
-        _goals.value!!["Steps"] = Pair(0, 1000)
-        _goals.value!!["Water"] = Pair(0, 6)
-        _goals.value!!["Sleep"] = Pair(0, 8)
+        _goals.value = HashMap<String, Int>()
+        _goals.value!!["Steps"] = 1000
+        _goals.value!!["Water"] = 40
+        _goals.value!!["Sleep"] = 7
 
         _dailyComplete.value = 0
         _dailyTotal.value = 3
