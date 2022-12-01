@@ -14,8 +14,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-
-    <string name="goals_top_string">YOUR GOALS</string>
+    <!-- all the things for the goal screen -->
+    <string name="manage_goals">MANAGE GOALS</string>
+    <string name="goals_top_string">ADD GOALS</string>
     <string name="steps_string">STEPS</string>
     <string name="water_string">WATER</string>
     <string name="sleep_string">SLEEP</string>
@@ -28,6 +29,15 @@
     <string name="step">Steps</string>
     <string name="cus">Custom Goal</string>
     <string name="button_add">Add</string>
+    <string name="button_goals">Manage Goals</string>
+
+    <!-- for displaying the goals on a seperate screen -->
+    <string name="drink">Drink</string>
+    <string name="ounces">ounces</string>
+    <string name="sleep">Sleep</string>
+    <string name="hours">hours</string>
+    <string name="walk">Walk</string>
+    <string name="steps">steps</string>
 
 
 </resources>

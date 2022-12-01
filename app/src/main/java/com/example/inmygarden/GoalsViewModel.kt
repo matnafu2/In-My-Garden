@@ -14,6 +14,8 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
     internal val goals: LiveData<HashMap<String, Int>>
         get() = _goals
 
+
+
     // Holds the current number of completed goals for the day
     private val _dailyComplete: MutableLiveData<Int> =
         MutableLiveData<Int>()

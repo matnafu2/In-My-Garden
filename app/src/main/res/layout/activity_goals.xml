@@ -15,10 +15,10 @@
         android:layout_height="48dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/progress_string"
+        android:hint="@string/hr"
         android:inputType="textPersonName"
 
-        android:text="@string/hr"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.388"
@@ -32,9 +32,9 @@
         android:layout_height="48dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/progress_string"
+        android:hint="@string/step"
         android:inputType="textPersonName"
-        android:text="@string/step"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
@@ -104,10 +104,10 @@
         android:text="@string/home_string"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.464"
+        app:layout_constraintHorizontal_bias="0.179"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.789" />
+        app:layout_constraintVertical_bias="0.787" />
 
     <EditText
         android:id="@+id/text_water"
@@ -116,9 +116,9 @@
         android:layout_marginStart="48dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/progress_string"
+        android:hint="@string/oz"
         android:inputType="textPersonName"
-        android:text="@string/oz"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.253"
@@ -204,6 +204,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.592" />
+
+    <Button
+        android:id="@+id/goals_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_goals"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.728"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.789" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

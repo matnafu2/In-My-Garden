@@ -1,83 +1,67 @@
 package com.example.inmygarden
 
+
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.inmygarden.databinding.ActivityGoalsBinding
+
 
 
 class GoalsActivity : AppCompatActivity() {
 
-    //buttons and text boxes for the goals page
-
-    private lateinit var btnWater: Button
-    private lateinit var btnSleep: Button
-    private lateinit var btnSteps: Button
-    private lateinit var btnCustom: Button
-    private lateinit var btnHome: Button
-
-    private lateinit var editWater: EditText
-    private lateinit var editSleep: EditText
-    private lateinit var editSteps: EditText
-    private lateinit var editCustom: EditText
-
     private lateinit var goalsViewModel: GoalsViewModel
-
-
+    private lateinit var binding: ActivityGoalsBinding
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_goals)
-
+        binding = ActivityGoalsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         goalsViewModel = ViewModelProvider(MainActivity())[GoalsViewModel::class.java]
         goalsViewModel.bindToActivityLifecycle(MainActivity())
 
-        btnWater = findViewById(R.id.water_button)
-        btnSleep = findViewById(R.id.sleep_button)
-        btnSteps = findViewById(R.id.steps_button)
-        btnCustom = findViewById(R.id.custom_button)
-        btnHome = findViewById(R.id.home_button)
 
-        editWater = findViewById(R.id.text_water)
-        editSleep = findViewById(R.id.text_sleep)
-        editSteps = findViewById(R.id.text_steps)
-        editCustom = findViewById(R.id.text_custom)
+        //here i am putting actions for each button press
 
-        //here i am putting actions for each button press .. in progress
-
-        btnWater.setOnClickListener {
-            val temp = editWater.text
+        binding.waterButton.setOnClickListener {
+            val temp = binding.textWater.text
             goalsViewModel.goals.value!!["Water"] = temp.toString().toInt()
             goalsViewModel.dailyTotal.value!!.plus(1)
-            editWater.setText("")
+            binding.textWater.setText("")
         }
 
-        btnSleep.setOnClickListener {
-            val temp = editSleep.text
+        binding.sleepButton.setOnClickListener {
+            val temp = binding.textSleep.text
             goalsViewModel.goals.value!!["Sleep"] = temp.toString().toInt()
             goalsViewModel.dailyTotal.value!!.plus(1)
-            editSleep.setText("")
+            binding.textSleep.setText("")
         }
 
-        btnSteps.setOnClickListener {
-            val temp = editSteps.text
+        binding.stepsButton.setOnClickListener {
+            val temp = binding.textSteps.text
             goalsViewModel.goals.value!!["Steps"] = temp.toString().toInt()
             goalsViewModel.dailyTotal.value!!.plus(1)
-            editSteps.setText("")
+            binding.textSteps.setText("")
         }
 
-        btnCustom.setOnClickListener {
-            val temp = editCustom.text
-
-            editSteps.setText("")
+        binding.customButton.setOnClickListener {
+            val temp = binding.textCustom.text
+            goalsViewModel.goals.value?.put(temp.toString(), -1)
+            goalsViewModel.dailyTotal.value!!.plus(1)
+            binding.textCustom.setText("")
         }
 
-        btnHome.setOnClickListener {
-
+        binding.homeButton.setOnClickListener {
+            val intent = Intent(this@GoalsActivity, MainActivity::class.java)
+            startActivity(intent)
         }
 
+        binding.goalsButton.setOnClickListener {
+            val intent = Intent(this@GoalsActivity, ManageGoalsActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 
