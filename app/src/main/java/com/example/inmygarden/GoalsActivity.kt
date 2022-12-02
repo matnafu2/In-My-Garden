@@ -14,10 +14,13 @@ class GoalsActivity : AppCompatActivity() {
     private lateinit var goalsViewModel: GoalsViewModel
     private lateinit var binding: ActivityGoalsBinding
 
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGoalsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val i  = 1
 
         goalsViewModel = ViewModelProvider(MainActivity())[GoalsViewModel::class.java]
         goalsViewModel.bindToActivityLifecycle(MainActivity())
@@ -28,28 +31,28 @@ class GoalsActivity : AppCompatActivity() {
         binding.waterButton.setOnClickListener {
             val temp = binding.textWater.text
             goalsViewModel.goals.value!!["Water"] = temp.toString().toInt()
-            goalsViewModel.dailyTotal.value!!.plus(1)
+            goalsViewModel.dailyTotal.value!!.plus(i)
             binding.textWater.setText("")
         }
 
         binding.sleepButton.setOnClickListener {
             val temp = binding.textSleep.text
             goalsViewModel.goals.value!!["Sleep"] = temp.toString().toInt()
-            goalsViewModel.dailyTotal.value!!.plus(1)
+            goalsViewModel.dailyTotal.value!!.plus(i)
             binding.textSleep.setText("")
         }
 
         binding.stepsButton.setOnClickListener {
             val temp = binding.textSteps.text
             goalsViewModel.goals.value!!["Steps"] = temp.toString().toInt()
-            goalsViewModel.dailyTotal.value!!.plus(1)
+            goalsViewModel.dailyTotal.value!!.plus(i)
             binding.textSteps.setText("")
         }
 
         binding.customButton.setOnClickListener {
             val temp = binding.textCustom.text
             goalsViewModel.goals.value?.put(temp.toString(), -1)
-            goalsViewModel.dailyTotal.value!!.plus(1)
+            goalsViewModel.dailyTotal.value!!.plus(i)
             binding.textCustom.setText("")
         }
 

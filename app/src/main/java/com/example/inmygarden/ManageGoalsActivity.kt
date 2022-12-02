@@ -2,10 +2,10 @@ package com.example.inmygarden
 
 import android.os.Bundle
 import android.widget.Button
-import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import android.widget.TextView
+
 
 
 class ManageGoalsActivity : AppCompatActivity() {
@@ -21,32 +21,33 @@ class ManageGoalsActivity : AppCompatActivity() {
         goalsViewModel.bindToActivityLifecycle(MainActivity())
 
         /*to help keep track of goals, they will all be displayed on a separate screen
-        on this screen they can check off whether they completed the goal or want to remove it
-        in progress
+        the goals can now probably be seen on this screen
+        just need to add when they complete a goal or delete it, that data gets updated accordingly
         */
 
-        /*
         for ((key, value) in goalsViewModel.goals.value!!) {
-            if (key == "Water") {
-                val but = Button(this)
-                but.setText(R.string.drink + value + R.string.ounces)
-            } else if (key == "Steps") {
-                val but = Button(this)
-                but.setText(R.string.walk + value + R.string.steps)
-
-            } else if (key == "Sleep") {
-                val but = Button(this)
-                but.setText(R.string.sleep + value + R.string.hours)
-            } else {
-                val but = Button(this)
-                but.setText(value)
+            when (key) {
+                "Water" -> {
+                    val but = Button(this)
+                    but.setText(R.string.drink + value + R.string.ounces)
+                    findViewById<LinearLayout>(R.id.goals_root).addView(but)
+                }
+                "Steps" -> {
+                    val but = Button(this)
+                    but.setText(R.string.walk + value + R.string.steps)
+                    findViewById<LinearLayout>(R.id.goals_root).addView(but)
+                }
+                "Sleep" -> {
+                    val but = Button(this)
+                    but.setText(R.string.sleep + value + R.string.hours)
+                    findViewById<LinearLayout>(R.id.goals_root).addView(but)
+                }
+                else -> {
+                    val but = Button(this)
+                    but.setText(value)
+                    findViewById<LinearLayout>(R.id.goals_root).addView(but)
+                }
             }
-        }
-
-        */
-
-        goalsViewModel.goals.observe(this) {
-
         }
 
     }
