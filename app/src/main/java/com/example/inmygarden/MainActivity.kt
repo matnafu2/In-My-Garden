@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.example.inmygarden.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -15,7 +17,12 @@ private lateinit var binding: ActivityMainBinding
 // View Model for keeping track of goals and their progress
  lateinit var goalsViewModel: GoalsViewModel
 // View Model for keeping track of garden state
- lateinit var gardenviewModel: GardenViewModel
+private lateinit var gardenviewModel: GardenViewModel
+/*
+private val _mainActivity : MainActivity = MainActivity()
+internal val mainActivity : MainActivity
+    get() = _mainActivity
+*/
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
