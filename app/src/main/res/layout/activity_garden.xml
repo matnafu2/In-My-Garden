@@ -210,4 +210,12 @@
         </TableRow>
     </TableLayout>
 
+    <Button
+        android:id="@+id/clear_garden"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear Garden"
+        android:layout_marginStart="150dp"
+        tools:layout_editor_absoluteX="125dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
