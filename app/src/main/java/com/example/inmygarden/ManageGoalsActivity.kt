@@ -4,48 +4,68 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 
 
 
 class ManageGoalsActivity : AppCompatActivity() {
 
 
-    private lateinit var goalsViewModel: GoalsViewModel
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_goals)
 
-        goalsViewModel = ViewModelProvider(MainActivity())[GoalsViewModel::class.java]
-        goalsViewModel.bindToActivityLifecycle(MainActivity())
+        //goalsViewModel = GoalsViewModel()
 
         /*to help keep track of goals, they will all be displayed on a separate screen
         the goals can now probably be seen on this screen
         just need to add when they complete a goal or delete it, that data gets updated accordingly
         */
 
-        for ((key, value) in goalsViewModel.goals.value!!) {
+
+
+        goalsViewModel.goals.value?.forEach { (key, value) ->
             when (key) {
                 "Water" -> {
                     val but = Button(this)
-                    but.setText(R.string.drink + value + R.string.ounces)
+                    val str = "Drink " + value.toString() + " ounces"
+                    but.text = str
                     findViewById<LinearLayout>(R.id.goals_root).addView(but)
+                    but.setOnClickListener {
+                        findViewById<LinearLayout>(R.id.goals_root).removeView(but)
+                        goalsViewModel.goals.value?.remove(key, value)
+                    }
                 }
                 "Steps" -> {
                     val but = Button(this)
-                    but.setText(R.string.walk + value + R.string.steps)
+                    val str = "Walk " + value.toString() + " steps"
+                    but.text = str
                     findViewById<LinearLayout>(R.id.goals_root).addView(but)
+                    but.setOnClickListener {
+                        findViewById<LinearLayout>(R.id.goals_root).removeView(but)
+                        goalsViewModel.goals.value?.remove(key, value)
+                    }
                 }
                 "Sleep" -> {
                     val but = Button(this)
-                    but.setText(R.string.sleep + value + R.string.hours)
+                    val str = "Sleep " + value.toString() + " hours"
+                    but.text = str
                     findViewById<LinearLayout>(R.id.goals_root).addView(but)
+                    but.setOnClickListener {
+                        findViewById<LinearLayout>(R.id.goals_root).removeView(but)
+                        goalsViewModel.goals.value?.remove(key, value)
+                    }
                 }
                 else -> {
                     val but = Button(this)
-                    but.setText(value)
+                    but.text = key
                     findViewById<LinearLayout>(R.id.goals_root).addView(but)
+                    but.setOnClickListener {
+                        findViewById<LinearLayout>(R.id.goals_root).removeView(but)
+                        goalsViewModel.goals.value?.remove(key, value)
+
+                    }
+
                 }
             }
         }
