@@ -65,9 +65,14 @@ class MainActivity : AppCompatActivity() {
 
 
         // Create garden view model
-        gardenviewModel = GardenViewModel()
+        gardenviewModel = GardenActivity.gardenViewModel
         // Tie the GardenViewModel to the MainActivity lifecycle
         gardenviewModel.bindToActivityLifecycle(this)
+        finishPlant()
+        //newPlant()
+    }
+    private fun finishPlant() {
+        gardenviewModel.plantFinished.value = true
     }
 
     private fun beginObservingGoals() {
