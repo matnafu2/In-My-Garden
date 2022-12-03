@@ -4,17 +4,19 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-
+import androidx.lifecycle.ViewModelProvider
 
 
 class ManageGoalsActivity : AppCompatActivity() {
 
-
+    private lateinit var goalsViewModel: GoalsViewModel
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_goals)
 
+        goalsViewModel = ViewModelProvider(MainActivity())[GoalsViewModel::class.java]
+        goalsViewModel.bindToActivityLifecycle(MainActivity())
         //goalsViewModel = GoalsViewModel()
 
         /*to help keep track of goals, they will all be displayed on a separate screen

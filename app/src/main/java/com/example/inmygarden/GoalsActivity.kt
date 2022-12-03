@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class GoalsActivity : AppCompatActivity() {
 
-    //private lateinit var goalsViewModel: GoalsViewModel
+    private lateinit var goalsViewModel: GoalsViewModel
 
 
 

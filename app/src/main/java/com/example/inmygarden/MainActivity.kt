@@ -29,14 +29,10 @@ class MainActivity : AppCompatActivity() {
         // Set content view to the binding root view.
         setContentView(binding.root)
 
-
-
         // Create goals view model
         goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
         // Tie the GoalsViewModel to the MainActivity lifecycle
         goalsViewModel.bindToActivityLifecycle(this)
-
-
 
         // Call function that watches for changes in the daily goal completion total
         beginObservingGoals()
@@ -51,13 +47,6 @@ class MainActivity : AppCompatActivity() {
             val startGardenIntent = Intent(this, GardenActivity::class.java)
             startActivity(startGardenIntent)
         }
-
-        /*
-        // Either sets goals to defaults or retrieves goals set by user
-        goalsViewModel.setDefaultGoals()
-
-        */
-
 
         // Create garden view model
         gardenViewModel = GardenViewModel()
