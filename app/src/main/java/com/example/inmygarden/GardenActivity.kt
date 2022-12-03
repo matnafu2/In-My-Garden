@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.inmygarden.databinding.ActivityGardenBinding
 
@@ -22,7 +23,7 @@ class GardenActivity : AppCompatActivity() {
         }
         flowerArray = arrayOf(binding.flower1, binding.flower2, binding.flower3, binding.flower4,
             binding.flower5, binding.flower6, binding.flower7, binding.flower8, binding.flower9)
-
+        observePlant()
     }
     private fun observePlant() {
         gardenViewModel.plantFinished.observe(this) {
@@ -30,13 +31,17 @@ class GardenActivity : AppCompatActivity() {
                 for (flower in flowerArray) {
                     if (flower.visibility == View.INVISIBLE) {
                         flower.visibility = View.VISIBLE
-                        //TODO: toast notification
+                        makeToast()
                         Log.i("IMG", "flower set to visible")
                         break
                     }
                 }
             }
         }
+    }
+    private fun makeToast() {
+        Toast.makeText(applicationContext, "Your plant has been added to the garden!",
+            Toast.LENGTH_SHORT).show()
     }
     companion object {
         val gardenViewModel = GardenViewModel()
