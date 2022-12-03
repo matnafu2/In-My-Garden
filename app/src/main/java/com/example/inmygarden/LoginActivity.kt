@@ -1,11 +1,18 @@
 package com.example.inmygarden
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.inmygarden.databinding.ActivityLoginBinding
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.auth.FirebaseAuth
+import java.util.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -36,6 +43,9 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this@LoginActivity, PasswordResetActivity::class.java)
             startActivity(intent)
         }
+
+        // this is a test for the notification
+        handleNotification()
     }
 
     // logs in the user if the user already created an account
@@ -73,6 +83,47 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this@LoginActivity, MainActivity::class.java)
             startActivity(intent)
             finish()
+        }
+    }
+
+    //--------------------------------------------------------------------------//
+    //--------------------------------------------------------------------------//
+    private fun handleNotification() {
+
+        val calendar  = Calendar.getInstance()
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = calendar.get(Calendar.MINUTE)
+
+        // on a click of a button show a time picker
+        binding.notification.setOnClickListener {
+            val timePicker = MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_12H)
+                .setHour(currentHour)
+                .setMinute(currentMinute)
+                .setTitleText("Set Notification Time")
+                .build()
+
+            // get the selected time from the time picker
+            timePicker.show(supportFragmentManager, "1")
+            timePicker.addOnPositiveButtonClickListener {
+                calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
+                calendar.set(Calendar.MINUTE, timePicker.minute)
+
+                val intent = Intent(applicationContext, NotificationReceiver::class.java)
+                val pendingIntent =
+                    PendingIntent.getBroadcast(
+                        applicationContext, 100,
+                        intent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                    )
+
+                // the pending intent will be called once a day
+                val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
+                    AlarmManager.INTERVAL_DAY
+                    ,pendingIntent)
+
+                Toast.makeText(applicationContext, "The alarm has been set", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
