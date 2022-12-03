@@ -3,5 +3,5 @@
     <dimen name="flower_image_width">300dp</dimen>
     <dimen name="flower_image_height">423dp</dimen>
     <dimen name="checklist_image_size">150dp</dimen>
-    <dimen name="checkbox_size">10dp</dimen>
+    <dimen name="checkbox_size">20dp</dimen>
 </resources>

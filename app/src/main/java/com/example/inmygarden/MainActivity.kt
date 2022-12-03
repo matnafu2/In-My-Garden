@@ -6,8 +6,10 @@ import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toDrawable
 import com.example.inmygarden.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
+import java.util.*
 
 
 // Binding to XML layout
@@ -15,7 +17,7 @@ private lateinit var binding: ActivityMainBinding
 // View Model for keeping track of goals and their progress
 private lateinit var goalsViewModel: GoalsViewModel
 // View Model for keeping track of garden state
-private lateinit var gardenviewModel: GardenViewModel
+private lateinit var gardenViewModel: GardenViewModel
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,8 +31,8 @@ class MainActivity : AppCompatActivity() {
 
         // Set button click listeners for navigation to other activities
         binding.goalsButton.setOnClickListener {
-//            val startGoalsIntent = Intent(this@MainActivity, GoalsActivity::class.java)
-//            startActivity(startGoalsIntent)
+            val startGoalsIntent = Intent(this@MainActivity, GoalsActivity::class.java)
+            startActivity(startGoalsIntent)
         }
 
         binding.gardenButton.setOnClickListener {
@@ -50,9 +52,25 @@ class MainActivity : AppCompatActivity() {
         goalsViewModel.setDefaultGoals()
 
         // Create garden view model
-        gardenviewModel = GardenViewModel()
+        gardenViewModel = GardenViewModel()
         // Tie the GardenViewModel to the MainActivity lifecycle
-        gardenviewModel.bindToActivityLifecycle(this)
+        gardenViewModel.bindToActivityLifecycle(this)
+
+        // Either sets goals to defaults or retrieves goals set by user
+        gardenViewModel.setDefaultDays()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        when(gardenViewModel.daysGrown.value) {
+            1 -> binding.flower.setImageDrawable(R.drawable.flower1.toDrawable())
+            2 -> binding.flower.setImageDrawable(R.drawable.flower2.toDrawable())
+            3 -> binding.flower.setImageDrawable(R.drawable.flower3.toDrawable())
+            4 -> binding.flower.setImageDrawable(R.drawable.flower4.toDrawable())
+            5 -> binding.flower.setImageDrawable(R.drawable.flower5.toDrawable())
+            6 -> binding.flower.setImageDrawable(R.drawable.flower6.toDrawable())
+            7 -> binding.flower.setImageDrawable(R.drawable.flower7.toDrawable())
+        }
     }
 
     private fun beginObservingGoals() {
