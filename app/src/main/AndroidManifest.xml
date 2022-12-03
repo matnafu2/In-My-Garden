@@ -43,12 +43,13 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".GoalsActivity"
+        <activity android:name=".GoalsActivity"
+            android:exported="true"
+            >
+        </activity>
+        <activity android:name=".ManageGoalsActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
+
         </activity>
 
 

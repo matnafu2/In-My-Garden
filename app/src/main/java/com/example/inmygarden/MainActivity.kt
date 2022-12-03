@@ -2,11 +2,11 @@ package com.example.inmygarden
 
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toDrawable
+import androidx.lifecycle.ViewModelProvider
 import com.example.inmygarden.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
@@ -29,6 +29,18 @@ class MainActivity : AppCompatActivity() {
         // Set content view to the binding root view.
         setContentView(binding.root)
 
+
+
+        // Create goals view model
+        goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
+        // Tie the GoalsViewModel to the MainActivity lifecycle
+        goalsViewModel.bindToActivityLifecycle(this)
+
+
+
+        // Call function that watches for changes in the daily goal completion total
+        beginObservingGoals()
+
         // Set button click listeners for navigation to other activities
         binding.goalsButton.setOnClickListener {
             val startGoalsIntent = Intent(this@MainActivity, GoalsActivity::class.java)
@@ -40,16 +52,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(startGardenIntent)
         }
 
-        // Create goals view model
-        goalsViewModel = GoalsViewModel()
-        // Tie the GoalsViewModel to the MainActivity lifecycle
-        goalsViewModel.bindToActivityLifecycle(this)
-
-        // Call function that watches for changes in the daily goal completion total
-        beginObservingGoals()
-
+        /*
         // Either sets goals to defaults or retrieves goals set by user
         goalsViewModel.setDefaultGoals()
+
+        */
+
 
         // Create garden view model
         gardenViewModel = GardenViewModel()

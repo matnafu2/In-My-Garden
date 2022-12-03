@@ -1,67 +1,105 @@
 package com.example.inmygarden
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.example.inmygarden.databinding.ActivityGoalsBinding
+
+
+
 
 
 
 class GoalsActivity : AppCompatActivity() {
 
-    private lateinit var goalsViewModel: GoalsViewModel
-    private lateinit var binding: ActivityGoalsBinding
+    //private lateinit var goalsViewModel: GoalsViewModel
 
 
+
+
+
+    @SuppressLint("CutPasteId")
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityGoalsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_goals)
 
-        val i  = 1
-
-        goalsViewModel = ViewModelProvider(MainActivity())[GoalsViewModel::class.java]
-        goalsViewModel.bindToActivityLifecycle(MainActivity())
-
+        val i = 1
 
         //here i am putting actions for each button press
 
-        binding.waterButton.setOnClickListener {
-            val temp = binding.textWater.text
-            goalsViewModel.goals.value!!["Water"] = temp.toString().toInt()
-            goalsViewModel.dailyTotal.value!!.plus(i)
-            binding.textWater.setText("")
+
+        findViewById<Button>(R.id.water_button).setOnClickListener {
+
+
+            val temp = findViewById<TextView>(R.id.text_water).text.toString()
+
+            if (temp.toIntOrNull() == null || temp == "") {
+                Toast.makeText(this,"Not a valid number!", Toast.LENGTH_SHORT).show()
+            } else {
+                goalsViewModel.goals.value?.put("Water", temp.toInt())
+                goalsViewModel.dailyTotal.value?.plus(i)
+                findViewById<TextView>(R.id.text_water).text = ""
+                Toast.makeText(this, "Goal added!", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
-        binding.sleepButton.setOnClickListener {
-            val temp = binding.textSleep.text
-            goalsViewModel.goals.value!!["Sleep"] = temp.toString().toInt()
-            goalsViewModel.dailyTotal.value!!.plus(i)
-            binding.textSleep.setText("")
+
+        findViewById<Button>(R.id.steps_button).setOnClickListener {
+            val temp = findViewById<TextView>(R.id.text_steps).text.toString()
+
+            if (temp.toIntOrNull() == null || temp == "") {
+                Toast.makeText(this, "Not a valid number!", Toast.LENGTH_SHORT).show()
+            } else {
+                goalsViewModel.goals.value?.put("Steps", temp.toInt())
+                goalsViewModel.dailyTotal.value?.plus(i)
+                findViewById<TextView>(R.id.text_steps).text = ""
+                Toast.makeText(this, "Goal added!", Toast.LENGTH_SHORT).show()
+            }
         }
 
-        binding.stepsButton.setOnClickListener {
-            val temp = binding.textSteps.text
-            goalsViewModel.goals.value!!["Steps"] = temp.toString().toInt()
-            goalsViewModel.dailyTotal.value!!.plus(i)
-            binding.textSteps.setText("")
+
+        findViewById<Button>(R.id.sleep_button).setOnClickListener {
+            val temp = findViewById<TextView>(R.id.text_sleep).text.toString()
+
+            if (temp.toIntOrNull() == null || temp == "") {
+                Toast.makeText(this, "Not a valid number!", Toast.LENGTH_SHORT).show()
+            } else {
+                goalsViewModel.goals.value?.put("Sleep", temp.toInt())
+                goalsViewModel.dailyTotal.value?.plus(i)
+                findViewById<TextView>(R.id.text_sleep).text = ""
+                Toast.makeText(this, "Goal added!", Toast.LENGTH_SHORT).show()
+
+            }
+
+
+
         }
 
-        binding.customButton.setOnClickListener {
-            val temp = binding.textCustom.text
-            goalsViewModel.goals.value?.put(temp.toString(), -1)
-            goalsViewModel.dailyTotal.value!!.plus(i)
-            binding.textCustom.setText("")
+        findViewById<Button>(R.id.custom_button).setOnClickListener {
+            val temp = findViewById<TextView>(R.id.text_custom).text.toString()
+
+            if (temp == "") {
+                Toast.makeText(this, "Not a valid goal!", Toast.LENGTH_SHORT).show()
+            } else {
+                goalsViewModel.goals.value?.put(temp, -1)
+                goalsViewModel.dailyTotal.value?.plus(i)
+                findViewById<TextView>(R.id.text_custom).text = ""
+                Toast.makeText(this, "Goal added!", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
-        binding.homeButton.setOnClickListener {
+        findViewById<Button>(R.id.the_home_button).setOnClickListener {
             val intent = Intent(this@GoalsActivity, MainActivity::class.java)
             startActivity(intent)
         }
 
-        binding.goalsButton.setOnClickListener {
+        findViewById<Button>(R.id.the_goals_button).setOnClickListener {
             val intent = Intent(this@GoalsActivity, ManageGoalsActivity::class.java)
             startActivity(intent)
         }
