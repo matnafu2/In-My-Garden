@@ -23,6 +23,11 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
     internal val daysGrown: LiveData<Int>
         get() = _daysGrown
 
+    private val _plantFinished: MutableLiveData<Boolean> =
+        MutableLiveData<Boolean>(false)
+    internal val plantFinished: LiveData<Boolean>
+        get() = _plantFinished
+
     internal fun bindToActivityLifecycle(mainActivity: MainActivity) {
         mainActivity.lifecycle.addObserver(this)
     }
@@ -39,5 +44,9 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
             var period = Period.between(_firstDay.value, currDate)
             _daysGrown.value = period.days
         }
+    }
+
+    internal fun growthComplete() {
+        _plantFinished.value = true
     }
 }

@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Create garden view model
+
         gardenViewModel = GardenViewModel()
         // Tie the GardenViewModel to the MainActivity lifecycle
         gardenViewModel.bindToActivityLifecycle(this)
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        when(gardenViewModel.daysGrown.value) {
+        when (gardenViewModel.daysGrown.value) {
             1 -> binding.flower.setImageDrawable(R.drawable.flower1.toDrawable())
             2 -> binding.flower.setImageDrawable(R.drawable.flower2.toDrawable())
             3 -> binding.flower.setImageDrawable(R.drawable.flower3.toDrawable())
@@ -68,6 +69,10 @@ class MainActivity : AppCompatActivity() {
             6 -> binding.flower.setImageDrawable(R.drawable.flower6.toDrawable())
             7 -> binding.flower.setImageDrawable(R.drawable.flower7.toDrawable())
         }
+    }
+
+    private fun finishPlant() {
+        gardenViewModel.growthComplete()
     }
 
     private fun beginObservingGoals() {

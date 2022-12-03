@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 
 
 
@@ -27,11 +28,14 @@ class GoalsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_goals)
 
+        //i did this for some reason
         val i = 1
 
-        //here i am putting actions for each button press
+        //here i am putting actions for each button pres
+//        goalsViewModel = ViewModelProvider(mainActivity)[GoalsViewModel::class.java]
 
 
+        //when they add water goal
         findViewById<Button>(R.id.water_button).setOnClickListener {
 
 
@@ -49,6 +53,7 @@ class GoalsActivity : AppCompatActivity() {
         }
 
 
+        //when they add steps goal
         findViewById<Button>(R.id.steps_button).setOnClickListener {
             val temp = findViewById<TextView>(R.id.text_steps).text.toString()
 
@@ -63,6 +68,7 @@ class GoalsActivity : AppCompatActivity() {
         }
 
 
+        //when they add sleep goal
         findViewById<Button>(R.id.sleep_button).setOnClickListener {
             val temp = findViewById<TextView>(R.id.text_sleep).text.toString()
 
@@ -80,6 +86,8 @@ class GoalsActivity : AppCompatActivity() {
 
         }
 
+
+        //when they add a custom goal
         findViewById<Button>(R.id.custom_button).setOnClickListener {
             val temp = findViewById<TextView>(R.id.text_custom).text.toString()
 
