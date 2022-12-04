@@ -112,8 +112,6 @@ class MainActivity : AppCompatActivity() {
         gardenViewModel.growthComplete()
     }
 
-
-
     private fun beginObservingGoals() {
         goalsViewModel.dailyComplete.observe(this) {
             // Set observer so that the text within the goals navigation button changes to reflect
