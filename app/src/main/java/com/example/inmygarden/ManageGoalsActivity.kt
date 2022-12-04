@@ -11,24 +11,17 @@ import androidx.lifecycle.ViewModelProvider
 
 class ManageGoalsActivity : AppCompatActivity() {
 
-<<<<<<< HEAD
 //private lateinit var goalsViewModel : GoalsViewModel
-=======
     private lateinit var goalsViewModel: GoalsViewModel
->>>>>>> a6322385ace69bcb54079ad5bd8beaaa3fe6f056
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_goals)
-<<<<<<< HEAD
-        ///goalsViewModel = ViewModelProvider(mainActivity)[GoalsViewModel::class.java]
+        goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
 
-=======
 
         goalsViewModel = ViewModelProvider(MainActivity())[GoalsViewModel::class.java]
         goalsViewModel.bindToActivityLifecycle(MainActivity())
-        //goalsViewModel = GoalsViewModel()
->>>>>>> a6322385ace69bcb54079ad5bd8beaaa3fe6f056
 
         /*to help keep track of goals, they will all be displayed on a separate screen
         the goals can now probably be seen on this screen

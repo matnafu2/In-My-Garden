@@ -17,13 +17,10 @@ private lateinit var binding: ActivityMainBinding
 // View Model for keeping track of goals and their progress
 private lateinit var goalsViewModel: GoalsViewModel
 // View Model for keeping track of garden state
-<<<<<<< HEAD
 private lateinit var gardenviewModel: GardenViewModel
 
 
-=======
 private lateinit var gardenViewModel: GardenViewModel
->>>>>>> a6322385ace69bcb54079ad5bd8beaaa3fe6f056
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,11 +37,8 @@ class MainActivity : AppCompatActivity() {
         // Tie the GoalsViewModel to the MainActivity lifecycle
         goalsViewModel.bindToActivityLifecycle(this)
 
-<<<<<<< HEAD
        // goalsViewModel.setDefaultGoals()
 
-=======
->>>>>>> a6322385ace69bcb54079ad5bd8beaaa3fe6f056
         // Call function that watches for changes in the daily goal completion total
         beginObservingGoals()
 
@@ -59,7 +53,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(startGardenIntent)
         }
 
-<<<<<<< HEAD
         /*
         // Either sets goals to defaults or retrieves goals set by user
         goalsViewModel.setDefaultGoals()
@@ -71,8 +64,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-=======
->>>>>>> a6322385ace69bcb54079ad5bd8beaaa3fe6f056
         // Create garden view model
 
         gardenViewModel = GardenViewModel()
