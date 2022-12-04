@@ -8,30 +8,27 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
+
+
+class GoalsActivity : AppCompatActivity()  {
 
 
 
-
-
-
-class GoalsActivity : AppCompatActivity() {
-
-   // private lateinit var goalsViewModel: GoalsViewModel
-
-
+    //private lateinit var goalsViewModel: GoalsViewModel
 
 
     @SuppressLint("CutPasteId")
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_goals)
 
         //i did this for some reason
         val i = 1
 
-        //here i am putting actions for each button pres
-//        goalsViewModel = ViewModelProvider(mainActivity)[GoalsViewModel::class.java]
+       // here i am putting actions for each button pres
+       //goalsViewModel = ViewModelProvider(mainActivity)[GoalsViewModel::class.java]
+
 
 
         //when they add water goal
@@ -40,13 +37,20 @@ class GoalsActivity : AppCompatActivity() {
 
             val temp = findViewById<TextView>(R.id.text_water).text.toString()
 
+
+
             if (temp.toIntOrNull() == null || temp == "") {
                 Toast.makeText(this,"Not a valid number!", Toast.LENGTH_SHORT).show()
             } else {
+
+
+                if (goalsViewModel.goals.value?.containsKey("Water") == false) {
+                    goalsViewModel.addDailyTotal()
+                }
+
                 goalsViewModel.goals.value?.put("Water", temp.toInt())
-                goalsViewModel.dailyTotal.value?.plus(i)
                 findViewById<TextView>(R.id.text_water).text = ""
-                Toast.makeText(this, "Goal added!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Total Goals: " + goalsViewModel.dailyTotal.value, Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -59,10 +63,14 @@ class GoalsActivity : AppCompatActivity() {
             if (temp.toIntOrNull() == null || temp == "") {
                 Toast.makeText(this, "Not a valid number!", Toast.LENGTH_SHORT).show()
             } else {
+
+                if (goalsViewModel.goals.value?.containsKey("Steps") == false) {
+                    goalsViewModel.addDailyTotal()
+                }
+
                 goalsViewModel.goals.value?.put("Steps", temp.toInt())
-                goalsViewModel.dailyTotal.value?.plus(i)
                 findViewById<TextView>(R.id.text_steps).text = ""
-                Toast.makeText(this, "Goal added!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Total Goals: " + goalsViewModel.dailyTotal.value, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -74,10 +82,14 @@ class GoalsActivity : AppCompatActivity() {
             if (temp.toIntOrNull() == null || temp == "") {
                 Toast.makeText(this, "Not a valid number!", Toast.LENGTH_SHORT).show()
             } else {
+
+                if (goalsViewModel.goals.value?.containsKey("Sleep") == false) {
+                    goalsViewModel.addDailyTotal()
+                }
+
                 goalsViewModel.goals.value?.put("Sleep", temp.toInt())
-                goalsViewModel.dailyTotal.value?.plus(i)
                 findViewById<TextView>(R.id.text_sleep).text = ""
-                Toast.makeText(this, "Goal added!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Total Goals: " + goalsViewModel.dailyTotal.value, Toast.LENGTH_SHORT).show()
 
             }
 
@@ -94,17 +106,23 @@ class GoalsActivity : AppCompatActivity() {
                 Toast.makeText(this, "Not a valid goal!", Toast.LENGTH_SHORT).show()
             } else {
                 goalsViewModel.goals.value?.put(temp, -1)
-                goalsViewModel.dailyTotal.value?.plus(i)
+                goalsViewModel.addDailyTotal()
                 findViewById<TextView>(R.id.text_custom).text = ""
-                Toast.makeText(this, "Goal added!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Total Goals: " + goalsViewModel.dailyTotal.value, Toast.LENGTH_SHORT).show()
             }
 
         }
 
         findViewById<Button>(R.id.the_home_button).setOnClickListener {
-            val intent = Intent(this@GoalsActivity, MainActivity::class.java)
+            /*
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-        }
+
+             */
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivityIfNeeded(intent, 0)
+50        }
 
         findViewById<Button>(R.id.the_goals_button).setOnClickListener {
             val intent = Intent(this@GoalsActivity, ManageGoalsActivity::class.java)

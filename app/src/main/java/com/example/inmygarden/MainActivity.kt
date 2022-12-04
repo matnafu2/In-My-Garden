@@ -18,11 +18,8 @@ private lateinit var binding: ActivityMainBinding
  lateinit var goalsViewModel: GoalsViewModel
 // View Model for keeping track of garden state
 private lateinit var gardenviewModel: GardenViewModel
-/*
-private val _mainActivity : MainActivity = MainActivity()
-internal val mainActivity : MainActivity
-    get() = _mainActivity
-*/
+
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         // Tie the GoalsViewModel to the MainActivity lifecycle
         goalsViewModel.bindToActivityLifecycle(this)
 
-
+       // goalsViewModel.setDefaultGoals()
 
         // Call function that watches for changes in the daily goal completion total
         beginObservingGoals()
@@ -64,16 +61,32 @@ class MainActivity : AppCompatActivity() {
         */
 
 
+
+
+
+
         // Create garden view model
         gardenviewModel = GardenViewModel()
         // Tie the GardenViewModel to the MainActivity lifecycle
         gardenviewModel.bindToActivityLifecycle(this)
     }
 
+
+
     private fun beginObservingGoals() {
         // Set observer so that the text within the goals navigation button changes to reflect
         // the number of completed goals
         goalsViewModel.dailyComplete.observe(this) {
+            with (binding.goalsButton) {
+                text = getString(
+                    R.string.goals_button,
+                    goalsViewModel.dailyComplete.value.toString(),
+                    goalsViewModel.dailyTotal.value.toString()
+                )
+            }
+        }
+
+        goalsViewModel.dailyTotal.observe(this) {
             with (binding.goalsButton) {
                 text = getString(
                     R.string.goals_button,
