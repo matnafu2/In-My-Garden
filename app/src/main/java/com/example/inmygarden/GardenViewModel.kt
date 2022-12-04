@@ -30,17 +30,23 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
      * i.e. User's adding goals when goals are completed means today is no longer a successful
      * growth day, so reset until all goals are completed again.
      */
-    private lateinit var lastDayGrown: LocalDate
+    private var _lastDayGrown: MutableLiveData<LocalDate> =
+        MutableLiveData<LocalDate>()
+    internal val lastDayGrown: LiveData<LocalDate>
+        get() = _lastDayGrown
 
     internal fun bindToActivityLifecycle(mainActivity: MainActivity) {
         mainActivity.lifecycle.addObserver(this)
     }
 
-    internal fun setDefaultDays() {
+    /*
+     * Either new data needs to be set, or data created from previous sessions needs to be loaded.
+     */
+    internal fun loadData() {
         if (true) {
-            _daysGrown.value = 0
+            _daysGrown.value = 1
             _plantFinished.value = false
-            lastDayGrown = LocalDate.now().minusDays(1)
+            _lastDayGrown.value = LocalDate.now().minusDays(1)
         } else {
             // load daysGrown
 
@@ -51,9 +57,6 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
 
     internal fun growthComplete() {
         _plantFinished.value = true
-    }
-
-    internal fun updateDate() {
 
     }
 
@@ -63,16 +66,16 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
             // increment days grown to include today
             _daysGrown.value = _daysGrown.value?.plus(1)
             // Mark today as the last day grown
-            lastDayGrown = LocalDate.now()
+            _lastDayGrown.value = LocalDate.now()
         } else {
             val currDate = LocalDate.now()
             // Today's goals might have been successfully completed, but a new goal was added.
             // In this case, today's goals need to all be completed again, so get rid of today's
             // successful growth
-            if (lastDayGrown.dayOfYear == currDate.dayOfYear &&
-                    lastDayGrown.year == currDate.year) { // checks if goals were completed today
+            if (_lastDayGrown.value?.dayOfYear == currDate.dayOfYear &&
+                    _lastDayGrown.value?.year == currDate.year) { // checks if goals were completed today
                 // Set lastDayGrown as a date that isn't today (past is safe)
-                lastDayGrown = currDate.minusDays(1)
+                _lastDayGrown.value = currDate.minusDays(1)
                 // Decrement daysGrown
                 _daysGrown.value = _daysGrown.value?.minus(1)
             }
