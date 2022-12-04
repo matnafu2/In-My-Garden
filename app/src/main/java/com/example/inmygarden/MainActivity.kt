@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         // Initialize the broadcast receiver with the garden viewmodel
         dateReceiver = DateChangeReceiver(goalsViewModel)
 
-       // goalsViewModel.setDefaultGoals()
+        // goalsViewModel.setDefaultGoals()
 
         // Call function that watches for changes in the daily goal completion total
         beginObservingGoals()
