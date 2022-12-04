@@ -33,6 +33,7 @@ class GoalsActivity : AppCompatActivity() {
 
         //here i am putting actions for each button pres
 //        goalsViewModel = ViewModelProvider(mainActivity)[GoalsViewModel::class.java]
+        goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
 
 
         //when they add water goal

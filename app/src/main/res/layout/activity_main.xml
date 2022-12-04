@@ -11,9 +11,9 @@
 
     <FrameLayout
         android:id="@+id/flower_frame"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="300dp"
+        android:layout_height="500dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginBottom="120dp"
+            android:layout_marginBottom="0dp"
             android:contentDescription="image"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginBottom="120dp"
+            android:layout_marginBottom="0dp"
             android:contentDescription="@string/flower_image"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -47,14 +47,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/flower1" />
+    </FrameLayout>
+
+    <!--    Frame Layout for checklist views -->
+    <FrameLayout
+        android:id="@+id/checklist_frame"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <!--    Checklist Rectangle   -->
         <ImageView
             android:id="@+id/checklist_image"
             android:layout_width="@dimen/checklist_image_size"
-            android:layout_height="95dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
-            android:layout_marginTop="180dp"
             android:contentDescription="@string/checklist_image"
             android:src="@drawable/checklist_image" />
 
@@ -63,30 +73,33 @@
             android:id="@+id/water_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="150dp"
-            android:textSize="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:textSize="@dimen/checkbox_size"
             android:text="@string/checklist1" />
 
         <TextView
             android:id="@+id/sun_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="20dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/checkbox_size"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="180dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="4dp"
             android:text="@string/checklist2" />
 
         <TextView
             android:id="@+id/food_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="20dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/checkbox_size"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="210dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="4dp"
             android:text="@string/checklist3" />
 
         <!--    Check Boxes (in order top to bottom)  -->
@@ -94,9 +107,10 @@
             android:id="@+id/water_checkbox"
             android:layout_width="@dimen/checkbox_size"
             android:layout_height="@dimen/checkbox_size"
-            android:layout_gravity="center"
-            android:layout_marginLeft="-30dp"
-            android:layout_marginTop="150dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="4dp"
             android:contentDescription="@string/checklist_image"
             android:src="@drawable/checkbox_empty" />
 
@@ -104,9 +118,10 @@
             android:id="@+id/sun_checkbox"
             android:layout_width="@dimen/checkbox_size"
             android:layout_height="@dimen/checkbox_size"
-            android:layout_gravity="center"
+            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="-30dp"
-            android:layout_marginTop="180dp"
+            android:layout_marginTop="34dp"
+            android:layout_marginBottom="4dp"
             android:contentDescription="@string/checklist_image"
             android:src="@drawable/checkbox_empty" />
 
@@ -114,12 +129,12 @@
             android:id="@+id/food_checkbox"
             android:layout_width="@dimen/checkbox_size"
             android:layout_height="@dimen/checkbox_size"
-            android:layout_gravity="center"
-            android:layout_marginLeft="-30dp"
-            android:layout_marginTop="210dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginBottom="4dp"
             android:contentDescription="@string/checklist_image"
             android:src="@drawable/checkbox_empty" />
-
     </FrameLayout>
 
     <Button
@@ -128,6 +143,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/goals_button"
+        android:layout_marginBottom="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">

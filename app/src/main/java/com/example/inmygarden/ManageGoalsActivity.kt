@@ -17,8 +17,7 @@ class ManageGoalsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_goals)
 
-        goalsViewModel = ViewModelProvider(MainActivity())[GoalsViewModel::class.java]
-        goalsViewModel.bindToActivityLifecycle(MainActivity())
+        goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
         //goalsViewModel = GoalsViewModel()
 
         /*to help keep track of goals, they will all be displayed on a separate screen
