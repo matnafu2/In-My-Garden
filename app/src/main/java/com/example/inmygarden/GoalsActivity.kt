@@ -52,6 +52,7 @@ class GoalsActivity : AppCompatActivity() {
                         goalsViewModel.addDailyTotal()
                     }
 
+<<<<<<< HEAD
                     goalsViewModel.goals.value?.put("Water", temp.toInt())
                     findViewById<TextView>(R.id.text_water).text = ""
                     Toast.makeText(
@@ -60,6 +61,60 @@ class GoalsActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+=======
+        //i did this for some reason
+        val i = 1
+
+        //here i am putting actions for each button pres
+//        goalsViewModel = ViewModelProvider(mainActivity)[GoalsViewModel::class.java]
+        goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
+
+
+        //when they add water goal
+        findViewById<Button>(R.id.water_button).setOnClickListener {
+
+
+            val temp = findViewById<TextView>(R.id.text_water).text.toString()
+
+            if (temp.toIntOrNull() == null || temp == "") {
+                Toast.makeText(this,"Not a valid number!", Toast.LENGTH_SHORT).show()
+            } else {
+                goalsViewModel.goals.value?.put("Water", temp.toInt())
+                goalsViewModel.dailyTotal.value?.plus(i)
+                findViewById<TextView>(R.id.text_water).text = ""
+                Toast.makeText(this, "Goal added!", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+
+        //when they add steps goal
+        findViewById<Button>(R.id.steps_button).setOnClickListener {
+            val temp = findViewById<TextView>(R.id.text_steps).text.toString()
+
+            if (temp.toIntOrNull() == null || temp == "") {
+                Toast.makeText(this, "Not a valid number!", Toast.LENGTH_SHORT).show()
+            } else {
+                goalsViewModel.goals.value?.put("Steps", temp.toInt())
+                goalsViewModel.dailyTotal.value?.plus(i)
+                findViewById<TextView>(R.id.text_steps).text = ""
+                Toast.makeText(this, "Goal added!", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+        //when they add sleep goal
+        findViewById<Button>(R.id.sleep_button).setOnClickListener {
+            val temp = findViewById<TextView>(R.id.text_sleep).text.toString()
+
+            if (temp.toIntOrNull() == null || temp == "") {
+                Toast.makeText(this, "Not a valid number!", Toast.LENGTH_SHORT).show()
+            } else {
+                goalsViewModel.goals.value?.put("Sleep", temp.toInt())
+                goalsViewModel.dailyTotal.value?.plus(i)
+                findViewById<TextView>(R.id.text_sleep).text = ""
+                Toast.makeText(this, "Goal added!", Toast.LENGTH_SHORT).show()
+>>>>>>> ae4d92e4a77c2893ceca413f7c0711c8dd7e0dfa
 
             }
 

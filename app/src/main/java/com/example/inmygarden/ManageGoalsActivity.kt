@@ -20,8 +20,13 @@ class ManageGoalsActivity : AppCompatActivity() {
         goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
 
 
+<<<<<<< HEAD
         goalsViewModel = ViewModelProvider(MainActivity())[GoalsViewModel::class.java]
         goalsViewModel.bindToActivityLifecycle(MainActivity())
+=======
+        goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
+        //goalsViewModel = GoalsViewModel()
+>>>>>>> ae4d92e4a77c2893ceca413f7c0711c8dd7e0dfa
 
         /*to help keep track of goals, they will all be displayed on a separate screen
         the goals can now probably be seen on this screen
