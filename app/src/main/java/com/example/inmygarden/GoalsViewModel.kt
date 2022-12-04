@@ -35,32 +35,4 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
     internal fun bindToActivityLifecycle(mainActivity: MainActivity) {
         mainActivity.lifecycle.addObserver(this)
     }
-<<<<<<< HEAD
-
-
-    internal fun addDailyComplete() {
-        _dailyComplete.value = _dailyComplete.value!! + 1
-    }
-
-    internal fun addDailyTotal() {
-        _dailyTotal.value = _dailyTotal.value!! + 1
-    }
-
-    /*
-    internal fun setDefaultGoals() {
-        // if no goals set
-        _goals.value = HashMap<String, Int>()
-        _goals.value!!["Steps"] = 1000
-        _goals.value!!["Water"] = 40
-        _goals.value!!["Sleep"] = 7
-
-        _dailyComplete.value = 0
-        _dailyTotal.value = 3
-        // if goals set
-        // get goals
-    }
-    */
-
-=======
->>>>>>> ae4d92e4a77c2893ceca413f7c0711c8dd7e0dfa
 }
