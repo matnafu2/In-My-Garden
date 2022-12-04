@@ -1,5 +1,7 @@
 package com.example.inmygarden
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
@@ -9,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.ViewModelProvider
 import com.example.inmygarden.databinding.ActivityMainBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDate
@@ -53,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         // Initialize the broadcast receiver with the garden viewmodel
         dateReceiver = DateChangeReceiver(goalsViewModel)
 
-       // goalsViewModel.setDefaultGoals()
+        // goalsViewModel.setDefaultGoals()
 
         // Call function that watches for changes in the daily goal completion total
         beginObservingGoals()
@@ -68,26 +71,6 @@ class MainActivity : AppCompatActivity() {
             val startGardenIntent = Intent(this, GardenActivity::class.java)
             startActivity(startGardenIntent)
         }
-
-        /*
-        // Either sets goals to defaults or retrieves goals set by user
-        goalsViewModel.setDefaultGoals()
-
-        */
-
-
-
-
-
-
-        // Create garden view model
-        gardenViewModel = ViewModelProvider(this)[GardenViewModel::class.java]
-        // Tie the GardenViewModel to the MainActivity lifecycle
-        gardenViewModel.bindToActivityLifecycle(this)
-
-        // Either sets goals to defaults or retrieves goals set by user
-        //gardenViewModel.setDefaultDays()
-
     }
 
     override fun onStart() {
@@ -114,10 +97,11 @@ class MainActivity : AppCompatActivity() {
         if (gardenViewModel.lastDayGrown.value?.dayOfYear == currDate.dayOfYear &&
             gardenViewModel.lastDayGrown.value?.year == currDate.year) {
             stageNum = gardenViewModel.daysGrown.value?.minus(1)!!
-        // Check if goals have been completed 7 days in a row
-        // Days grown would have been incremented the day before, but now we grow/update
-        } else if (gardenViewModel.daysGrown.value!! == 8){
+            // Check if goals have been completed 7 days in a row
+            // Days grown would have been incremented the day before, but now we grow/update
+        } else if (gardenViewModel.daysGrown.value!! >= 8) {
             finishPlant()
+            congratulationsDialog()
             stageNum = gardenViewModel.daysGrown.value!!
         } else {
             stageNum = gardenViewModel.daysGrown.value!!
@@ -295,6 +279,16 @@ class MainActivity : AppCompatActivity() {
         Snackbar.make(binding.flowerFrame,
             "Goals Completed! Check your plant's growth tomorrow!",
             Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun congratulationsDialog() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.congrats_title)
+            .setMessage(R.string.congrats_text)
+            .setPositiveButton("OKAY") { dialog, which ->
+
+            }
+            .show()
     }
 
     // inflate the menu to the screen

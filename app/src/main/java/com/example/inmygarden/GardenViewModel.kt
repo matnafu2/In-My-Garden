@@ -48,6 +48,7 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
             _plantFinished.value = false
             _lastDayGrown.value = LocalDate.now().minusDays(1)
         } else {
+            _plantFinished.value = false // This is determined in main activity
             // load daysGrown
 
             // load last day grown
@@ -57,7 +58,11 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
 
     internal fun growthComplete() {
         _plantFinished.value = true
+        _daysGrown.value = 1
+    }
 
+    internal fun resetPlantFinished() {
+        _plantFinished.value = false
     }
 
     internal fun updateGrowthDay(growthDay: Boolean) {

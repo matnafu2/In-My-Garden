@@ -64,6 +64,8 @@ class GardenActivity : AppCompatActivity() {
                 if (check == false) makeErrorToast()
             }
         }
+        // Adding a call to set platFinished to false after it has been handled
+        gardenViewModel.resetPlantFinished()
     }
     private fun makeToast() {
         Toast.makeText(applicationContext, "Your plant has been added to the garden!",

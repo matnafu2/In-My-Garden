@@ -43,7 +43,7 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
         } else {
             // load goals hashmap
 
-            // load daily complete
+            // load daily complete (Need to check if it's a new day)
 
             // load daily total
         }
