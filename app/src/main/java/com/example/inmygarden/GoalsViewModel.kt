@@ -15,7 +15,7 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
         get() = _goals
 
     // Holds the current number of completed goals for the day
-    private val _dailyComplete: MutableLiveData<Int> =
+    var _dailyComplete: MutableLiveData<Int> =
         MutableLiveData<Int>()
     internal val dailyComplete: LiveData<Int>
         get() = _dailyComplete

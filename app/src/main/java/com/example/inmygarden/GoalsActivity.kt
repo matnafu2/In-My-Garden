@@ -12,16 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 
 
 
-
-
-
 class GoalsActivity : AppCompatActivity() {
 
     private lateinit var goalsViewModel: GoalsViewModel
-
-
-
-
 
     @SuppressLint("CutPasteId")
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +28,7 @@ class GoalsActivity : AppCompatActivity() {
 //        goalsViewModel = ViewModelProvider(mainActivity)[GoalsViewModel::class.java]
         goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
 
-
+        /*
         //when they add water goal
         findViewById<Button>(R.id.water_button).setOnClickListener {
 
@@ -86,6 +79,8 @@ class GoalsActivity : AppCompatActivity() {
 
 
         }
+
+         */
 
 
         //when they add a custom goal

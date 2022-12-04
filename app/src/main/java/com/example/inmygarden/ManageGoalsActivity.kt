@@ -16,9 +16,9 @@ class ManageGoalsActivity : AppCompatActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_goals)
-
         goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
-        //goalsViewModel = GoalsViewModel()
+
+
 
         /*to help keep track of goals, they will all be displayed on a separate screen
         the goals can now probably be seen on this screen

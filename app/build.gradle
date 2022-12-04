@@ -36,6 +36,8 @@ android {
     }
     namespace 'com.example.inmygarden'
 
+    
+
     buildFeatures {
         viewBinding true
     }

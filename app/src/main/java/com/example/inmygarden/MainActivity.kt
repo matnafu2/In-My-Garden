@@ -22,6 +22,9 @@ private lateinit var binding: ActivityMainBinding
 // View Model for keeping track of goals and their progress
 private lateinit var goalsViewModel: GoalsViewModel
 // View Model for keeping track of garden state
+private lateinit var gardenviewModel: GardenViewModel
+
+
 private lateinit var gardenViewModel: GardenViewModel
 // Receiver for monitoring date changes
 private lateinit var dateReceiver: DateChangeReceiver
@@ -53,6 +56,8 @@ class MainActivity : AppCompatActivity() {
         // Initialize the broadcast receiver with the garden viewmodel
         dateReceiver = DateChangeReceiver(goalsViewModel)
 
+       // goalsViewModel.setDefaultGoals()
+
         // Call function that watches for changes in the daily goal completion total
         beginObservingGoals()
 
@@ -66,6 +71,28 @@ class MainActivity : AppCompatActivity() {
             val startGardenIntent = Intent(this, GardenActivity::class.java)
             startActivity(startGardenIntent)
         }
+<<<<<<< HEAD
+
+        /*
+        // Either sets goals to defaults or retrieves goals set by user
+        goalsViewModel.setDefaultGoals()
+
+        */
+
+
+
+
+
+
+        // Create garden view model
+        gardenViewModel = ViewModelProvider(this)[GardenViewModel::class.java]
+        // Tie the GardenViewModel to the MainActivity lifecycle
+        gardenViewModel.bindToActivityLifecycle(this)
+
+        // Either sets goals to defaults or retrieves goals set by user
+        gardenViewModel.setDefaultDays()
+=======
+>>>>>>> d0f27168765f1f31cb24c63f23f7d9d39613ad76
     }
 
     override fun onStart() {
@@ -122,6 +149,8 @@ class MainActivity : AppCompatActivity() {
     private fun finishPlant() {
         gardenViewModel.growthComplete()
     }
+
+
 
     private fun beginObservingGoals() {
         goalsViewModel.dailyComplete.observe(this) {
@@ -210,6 +239,16 @@ class MainActivity : AppCompatActivity() {
              * Update view model
              */
             gardenViewModel.updateGrowthDay(growthDay)
+        }
+
+        goalsViewModel.dailyTotal.observe(this) {
+            with (binding.goalsButton) {
+                text = getString(
+                    R.string.goals_button,
+                    goalsViewModel.dailyComplete.value.toString(),
+                    goalsViewModel.dailyTotal.value.toString()
+                )
+            }
         }
     }
 
