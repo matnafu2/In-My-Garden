@@ -10,15 +10,19 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.inmygarden.databinding.ActivityGardenBinding
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class GardenActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGardenBinding
     private lateinit var flowerArray: Array<ImageView>
-    private lateinit var visibilityArray: Array<Boolean>
+    private lateinit var database: DatabaseReference
     private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        database = Firebase.database.reference
         sharedPreferences = this.getSharedPreferences("application", Context.MODE_PRIVATE)
         binding = ActivityGardenBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -34,6 +38,9 @@ class GardenActivity : AppCompatActivity() {
             binding.flower5, binding.flower6, binding.flower7, binding.flower8, binding.flower9)
         pullFromSharedPreferences()
         observePlant()
+    }
+    override fun onDataChange(){
+
     }
 
     override fun onResume() {
