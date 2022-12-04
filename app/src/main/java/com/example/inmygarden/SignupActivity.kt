@@ -17,11 +17,14 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.singupBtn.setOnClickListener {
+        binding.signup.setOnClickListener {
             val email = binding.emailLogin.text.toString()
             val password = binding.passwordLogin.text.toString()
 
-            signupWithFirebase(email, password)
+            if ( email != "" && password != "")
+                signupWithFirebase(email, password)
+            else
+                Toast.makeText(this, "Enter both email and password", Toast.LENGTH_SHORT).show()
         }
     }
 
