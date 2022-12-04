@@ -1,9 +1,11 @@
 package com.example.inmygarden
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -22,14 +24,17 @@ private lateinit var binding: ActivityMainBinding
 // View Model for keeping track of goals and their progress
 private lateinit var goalsViewModel: GoalsViewModel
 // View Model for keeping track of garden state
-
 private lateinit var gardenViewModel: GardenViewModel
 // Receiver for monitoring date changes
 private lateinit var dateReceiver: DateChangeReceiver
+// Shared preferences for storing data on goals and growth stage
+private lateinit var sharedPrefs: SharedPreferences
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sharedPrefs = this.getSharedPreferences("application", Context.MODE_PRIVATE)
 
         // Use the provided ViewBinding class to inflate the layout.
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -42,14 +47,14 @@ class MainActivity : AppCompatActivity() {
         // Tie the GoalsViewModel to the MainActivity lifecycle
         goalsViewModel.bindToActivityLifecycle(this)
         // Either sets goals to defaults or retrieves goals set by user
-        goalsViewModel.loadData()
+        goalsViewModel.loadData(sharedPrefs)
 
         // Create garden view model
         gardenViewModel = ViewModelProvider(this)[GardenViewModel::class.java]
         // Tie the GardenViewModel to the MainActivity lifecycle
         gardenViewModel.bindToActivityLifecycle(this)
         // Either sets goals to defaults or retrieves goals set by user
-        gardenViewModel.loadData()
+        gardenViewModel.loadData(sharedPrefs)
 
         // Initialize the broadcast receiver with the garden viewmodel
         dateReceiver = DateChangeReceiver(goalsViewModel)

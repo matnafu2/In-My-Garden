@@ -16,6 +16,14 @@
         Go to the garden to view your fully grown flower!\n
         Great job meeting your goals!
     </string>
+
+    <!--    Shared Preferences Strings for data in view models    -->
+    <string name="days_grown">daysGrown</string>
+    <string name="last_day_grown">lastDayGrown</string>
+    <string name="daily_complete">dailyComplete</string>
+    <string name="daily_total">dailyTotal</string>
+    <string name="last_login_date">lastLoginDate</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
