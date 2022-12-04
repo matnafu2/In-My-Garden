@@ -12,16 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 
 
 
-
-
-
 class GoalsActivity : AppCompatActivity() {
 
     private lateinit var goalsViewModel: GoalsViewModel
-
-
-
-
 
     @SuppressLint("CutPasteId")
     public override fun onCreate(savedInstanceState: Bundle?) {
