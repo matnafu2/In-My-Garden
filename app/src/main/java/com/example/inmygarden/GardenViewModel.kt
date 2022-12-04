@@ -1,5 +1,6 @@
 package com.example.inmygarden
 
+import android.content.SharedPreferences
 import androidx.lifecycle.*
 import java.time.LocalDate
 import java.util.*
@@ -42,17 +43,23 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
     /*
      * Either new data needs to be set, or data created from previous sessions needs to be loaded.
      */
-    internal fun loadData() {
-        if (true) {
+    internal fun loadData(sharedPrefs: SharedPreferences) {
+        var isPrevData = false
+        if (sharedPrefs.contains(R.string.days_grown.toString())) {
+            isPrevData = true
+        }
+
+        if (!isPrevData) {
             _daysGrown.value = 1
             _plantFinished.value = false
             _lastDayGrown.value = LocalDate.now().minusDays(1)
         } else {
             _plantFinished.value = false // This is determined in main activity
             // load daysGrown
-
+            _daysGrown.value = sharedPrefs.getInt(R.string.days_grown.toString(), 1)
             // load last day grown
-
+            val lastDay = sharedPrefs.getString(R.string.last_day_grown.toString(), "01/01/1900")
+            _lastDayGrown.value = LocalDate.parse(lastDay)
         }
     }
 
