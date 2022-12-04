@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -109,6 +110,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun finishPlant() {
+        Log.i("Main", "growth complete")
+        sendBroadcast(Intent("finished"))
         gardenViewModel.growthComplete()
     }
 
