@@ -14,7 +14,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="1dp">
+        tools:layout_editor_absoluteY="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TableRow
             android:layout_width="match_parent"
@@ -22,19 +24,19 @@
             android:gravity="center">
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/pot1"
                 android:layout_width="120dp"
                 android:layout_height="170dp"
                 app:srcCompat="@drawable/pot_image" />
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/pot2"
                 android:layout_width="120dp"
                 android:layout_height="170dp"
                 app:srcCompat="@drawable/pot_image" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/pot3"
                 android:layout_width="120dp"
                 android:layout_height="170dp"
                 app:srcCompat="@drawable/pot_image" />
@@ -46,19 +48,19 @@
             android:gravity="center">
 
             <ImageView
-                android:id="@+id/imageView7"
+                android:id="@+id/pot4"
                 android:layout_width="120dp"
                 android:layout_height="170dp"
                 app:srcCompat="@drawable/pot_image" />
 
             <ImageView
-                android:id="@+id/imageView6"
+                android:id="@+id/pot5"
                 android:layout_width="120dp"
                 android:layout_height="170dp"
                 app:srcCompat="@drawable/pot_image" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/pot6"
                 android:layout_width="120dp"
                 android:layout_height="170dp"
                 app:srcCompat="@drawable/pot_image" />
@@ -70,19 +72,19 @@
             android:gravity="center">
 
             <ImageView
-                android:id="@+id/imageView9"
+                android:id="@+id/pot7"
                 android:layout_width="120dp"
                 android:layout_height="170dp"
                 app:srcCompat="@drawable/pot_image" />
 
             <ImageView
-                android:id="@+id/imageView8"
+                android:id="@+id/pot8"
                 android:layout_width="120dp"
                 android:layout_height="170dp"
                 app:srcCompat="@drawable/pot_image" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/pot9"
                 android:layout_width="120dp"
                 android:layout_height="170dp"
                 app:srcCompat="@drawable/pot_image" />
@@ -107,5 +109,113 @@
                 app:layout_constraintStart_toStartOf="parent" />
         </TableRow>
     </TableLayout>
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintVertical_bias=".4"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/flower1"
+                android:layout_width="120dp"
+                android:layout_height="170dp"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/flower7" />
+
+            <ImageView
+                android:id="@+id/flower2"
+                android:layout_width="120dp"
+                android:layout_height="170dp"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/flower7" />
+
+            <ImageView
+                android:id="@+id/flower3"
+                android:layout_width="120dp"
+                android:layout_height="170dp"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/flower7" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/flower4"
+                android:layout_width="120dp"
+                android:layout_height="170dp"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/flower7" />
+
+            <ImageView
+                android:id="@+id/flower5"
+                android:layout_width="120dp"
+                android:layout_height="170dp"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/flower7" />
+
+            <ImageView
+                android:id="@+id/flower6"
+                android:layout_width="120dp"
+                android:layout_height="170dp"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/flower7" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/flower7"
+                android:layout_width="120dp"
+                android:layout_height="170dp"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/flower7" />
+
+            <ImageView
+                android:id="@+id/flower8"
+                android:layout_width="120dp"
+                android:layout_height="170dp"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/flower7" />
+
+            <ImageView
+                android:id="@+id/flower9"
+                android:layout_width="120dp"
+                android:layout_height="170dp"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/flower7" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+        </TableRow>
+    </TableLayout>
+
+    <Button
+        android:id="@+id/clear_garden"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear Garden"
+        android:layout_marginStart="150dp"
+        tools:layout_editor_absoluteX="125dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

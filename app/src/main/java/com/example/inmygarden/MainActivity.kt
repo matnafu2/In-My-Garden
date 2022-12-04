@@ -5,21 +5,25 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.ViewModelProvider
 import com.example.inmygarden.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
+import java.util.*
 
 
 // Binding to XML layout
 private lateinit var binding: ActivityMainBinding
 // View Model for keeping track of goals and their progress
- lateinit var goalsViewModel: GoalsViewModel
+private lateinit var goalsViewModel: GoalsViewModel
 // View Model for keeping track of garden state
+<<<<<<< HEAD
 private lateinit var gardenviewModel: GardenViewModel
 
 
+=======
+private lateinit var gardenViewModel: GardenViewModel
+>>>>>>> a6322385ace69bcb54079ad5bd8beaaa3fe6f056
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,15 +35,16 @@ class MainActivity : AppCompatActivity() {
         // Set content view to the binding root view.
         setContentView(binding.root)
 
-
-
         // Create goals view model
         goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
         // Tie the GoalsViewModel to the MainActivity lifecycle
         goalsViewModel.bindToActivityLifecycle(this)
 
+<<<<<<< HEAD
        // goalsViewModel.setDefaultGoals()
 
+=======
+>>>>>>> a6322385ace69bcb54079ad5bd8beaaa3fe6f056
         // Call function that watches for changes in the daily goal completion total
         beginObservingGoals()
 
@@ -54,6 +59,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(startGardenIntent)
         }
 
+<<<<<<< HEAD
         /*
         // Either sets goals to defaults or retrieves goals set by user
         goalsViewModel.setDefaultGoals()
@@ -65,10 +71,33 @@ class MainActivity : AppCompatActivity() {
 
 
 
+=======
+>>>>>>> a6322385ace69bcb54079ad5bd8beaaa3fe6f056
         // Create garden view model
-        gardenviewModel = GardenViewModel()
+
+        gardenViewModel = GardenViewModel()
         // Tie the GardenViewModel to the MainActivity lifecycle
-        gardenviewModel.bindToActivityLifecycle(this)
+        gardenViewModel.bindToActivityLifecycle(this)
+
+        // Either sets goals to defaults or retrieves goals set by user
+        gardenViewModel.setDefaultDays()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        when (gardenViewModel.daysGrown.value) {
+            1 -> binding.flower.setImageDrawable(R.drawable.flower1.toDrawable())
+            2 -> binding.flower.setImageDrawable(R.drawable.flower2.toDrawable())
+            3 -> binding.flower.setImageDrawable(R.drawable.flower3.toDrawable())
+            4 -> binding.flower.setImageDrawable(R.drawable.flower4.toDrawable())
+            5 -> binding.flower.setImageDrawable(R.drawable.flower5.toDrawable())
+            6 -> binding.flower.setImageDrawable(R.drawable.flower6.toDrawable())
+            7 -> binding.flower.setImageDrawable(R.drawable.flower7.toDrawable())
+        }
+    }
+
+    private fun finishPlant() {
+        gardenViewModel.growthComplete()
     }
 
 

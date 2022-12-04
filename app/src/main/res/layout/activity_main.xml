@@ -18,24 +18,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!--    Flower in pot   -->
+        <!--    Pot   -->
+        <ImageView
+            android:id="@+id/pot_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginBottom="120dp"
+            android:contentDescription="image"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/pot_image" />
 
-        <!--    Checklist Rectangle   -->
+        <!--    Flower in pot   -->
         <ImageView
             android:id="@+id/flower"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:layout_marginBottom="120dp"
             android:contentDescription="@string/flower_image"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/flower1" />
+            android:src="@drawable/flower1" />
 
-        <!--    Checklist Items   -->
-
+        <!--    Checklist Rectangle   -->
         <ImageView
             android:id="@+id/checklist_image"
             android:layout_width="@dimen/checklist_image_size"
@@ -45,6 +58,7 @@
             android:contentDescription="@string/checklist_image"
             android:src="@drawable/checklist_image" />
 
+        <!--    Checklist Items   -->
         <TextView
             android:id="@+id/water_text"
             android:layout_width="wrap_content"
@@ -52,6 +66,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="150dp"
+            android:textSize="20dp"
             android:text="@string/checklist1" />
 
         <TextView
@@ -59,6 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textSize="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="180dp"
             android:text="@string/checklist2" />
@@ -68,6 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textSize="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="210dp"
             android:text="@string/checklist3" />

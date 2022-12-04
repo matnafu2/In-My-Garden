@@ -14,7 +14,19 @@ class GoalsActivity : AppCompatActivity()  {
 
 
 
+<<<<<<< HEAD
     //private lateinit var goalsViewModel: GoalsViewModel
+=======
+
+
+
+class GoalsActivity : AppCompatActivity() {
+
+    private lateinit var goalsViewModel: GoalsViewModel
+
+
+
+>>>>>>> a6322385ace69bcb54079ad5bd8beaaa3fe6f056
 
 
     @SuppressLint("CutPasteId")
