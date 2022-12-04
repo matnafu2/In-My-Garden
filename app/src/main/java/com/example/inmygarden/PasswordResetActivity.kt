@@ -17,8 +17,8 @@ class PasswordResetActivity : AppCompatActivity() {
         binding = ActivityPasswordResetBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.restPassBtn.setOnClickListener {
-            val email: String = binding.emailReset.text.toString()
+        binding.reset.setOnClickListener {
+            val email: String = binding.emailLogin.text.toString()
             if (!email.equals("")) {
                 auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
