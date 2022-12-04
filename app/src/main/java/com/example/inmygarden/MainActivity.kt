@@ -22,8 +22,6 @@ private lateinit var binding: ActivityMainBinding
 // View Model for keeping track of goals and their progress
 private lateinit var goalsViewModel: GoalsViewModel
 // View Model for keeping track of garden state
-private lateinit var gardenviewModel: GardenViewModel
-
 
 private lateinit var gardenViewModel: GardenViewModel
 // Receiver for monitoring date changes

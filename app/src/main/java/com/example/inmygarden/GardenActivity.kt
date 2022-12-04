@@ -9,7 +9,10 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.inmygarden.databinding.ActivityGardenBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
@@ -20,9 +23,13 @@ class GardenActivity : AppCompatActivity() {
     private lateinit var flowerArray: Array<ImageView>
     private lateinit var database: DatabaseReference
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var userId: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         database = Firebase.database.reference
+        userId = FirebaseAuth.getInstance().uid.toString()
+        Log.i("IMG", userId)
+        fetchData()
         sharedPreferences = this.getSharedPreferences("application", Context.MODE_PRIVATE)
         binding = ActivityGardenBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -39,8 +46,13 @@ class GardenActivity : AppCompatActivity() {
         pullFromSharedPreferences()
         observePlant()
     }
-    override fun onDataChange(){
-
+    private fun fetchData() {
+        database.child("users")
+        database.child("users").child(userId).get().addOnSuccessListener {
+            Log.i("firebase", "Got value ${it.value}")
+        }.addOnFailureListener{
+            Log.e("firebase", "Error getting data", it)
+        }
     }
 
     override fun onResume() {
@@ -83,7 +95,7 @@ class GardenActivity : AppCompatActivity() {
         val editor = sharedPreferences.edit()
         editor.putBoolean(id, value)
         editor.apply()
-        Log.i("IMG", "$id is stored as visible")
+        //Log.i("IMG", "$id is stored as visible")
     }
     private fun pullFromSharedPreferences() {
         for (flower in flowerArray) {
@@ -92,7 +104,7 @@ class GardenActivity : AppCompatActivity() {
                 flower.visibility = View.VISIBLE
             }
             else {
-                Log.i("IMG", "${(flower.id.toString())} is invisible ")
+                //Log.i("IMG", "${(flower.id.toString())} is invisible ")
             }
         }
     }
