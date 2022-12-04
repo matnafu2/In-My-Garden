@@ -37,7 +37,7 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
     init {
         _goals.value = HashMap<String, Int>()
         _dailyComplete.value = 0
-        _dailyTotal.value = 0
+        _dailyTotal.value = 3
     }
 
     /*
@@ -52,7 +52,7 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
         if (!isPrevData) {
             _goals.value = HashMap<String, Int>()
             _dailyComplete.value = 0
-            _dailyTotal.value = 0
+            _dailyTotal.value = 3
             _lastLogin.value = LocalDate.now()
         } else {
             // load goals hashmap
@@ -85,5 +85,15 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
 
     internal fun dateUpdated() {
         _dailyComplete.value = 0
+    }
+
+    internal fun testGoalsComplete() {
+        _dailyTotal.value = 4
+        val temp = _dailyComplete.value!!
+        _dailyComplete.value = (temp + 1)
+    }
+
+    internal fun testDayComplete() {
+        dateUpdated()
     }
 }
