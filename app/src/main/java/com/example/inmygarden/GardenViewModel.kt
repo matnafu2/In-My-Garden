@@ -72,7 +72,7 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
         _plantFinished.value = false
     }
 
-    internal fun updateGrowthDay(growthDay: Boolean) {
+    internal fun updateGrowthDay(growthDay: Boolean, sharedPrefs: SharedPreferences) {
         // Daily goals have been successfully completed
         if (growthDay) {
             // increment days grown to include today
@@ -92,5 +92,14 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
                 _daysGrown.value = _daysGrown.value?.minus(1)
             }
         }
+        val editor = sharedPrefs.edit()
+        editor.putInt(R.string.days_grown.toString(), _daysGrown.value!!)
+        editor.putString(R.string.last_day_grown.toString(),
+            _lastDayGrown.value?.toString())
+        editor.apply()
+    }
+
+    internal fun testDayComplete() {
+        _lastDayGrown.value = LocalDate.now().minusDays(1)
     }
 }
