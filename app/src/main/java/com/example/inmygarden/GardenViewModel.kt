@@ -3,7 +3,6 @@ package com.example.inmygarden
 import android.content.SharedPreferences
 import androidx.lifecycle.*
 import java.time.LocalDate
-import java.util.*
 
 class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
 
@@ -62,7 +61,6 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
             _lastDayGrown.value = LocalDate.parse(lastDay)
         }
     }
-
     internal fun growthComplete() {
         _plantFinished.value = true
         _daysGrown.value = 1
