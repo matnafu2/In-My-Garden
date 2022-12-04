@@ -32,7 +32,28 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
         _dailyTotal.value = 0
     }
 
+    /*
+     * Either new data needs to be set, or data created from previous sessions needs to be loaded.
+     */
+    internal fun loadData() {
+        if (true) {
+            _goals.value = HashMap<String, Int>()
+            _dailyComplete.value = 0
+            _dailyTotal.value = 0
+        } else {
+            // load goals hashmap
+
+            // load daily complete
+
+            // load daily total
+        }
+    }
+
     internal fun bindToActivityLifecycle(mainActivity: MainActivity) {
         mainActivity.lifecycle.addObserver(this)
+    }
+
+    internal fun dateUpdated() {
+        _dailyComplete.value = 0
     }
 }

@@ -1,7 +1,7 @@
 package com.example.inmygarden
 
-import android.content.BroadcastReceiver
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.inmygarden.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import java.time.LocalDate
 import java.util.*
 
 // Binding to XML layout
@@ -23,7 +24,7 @@ private lateinit var gardenviewModel: GardenViewModel
 
 private lateinit var gardenViewModel: GardenViewModel
 // Receiver for monitoring date changes
-private lateinit var receiver: BroadcastReceiver
+private lateinit var dateReceiver: DateChangeReceiver
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +40,18 @@ class MainActivity : AppCompatActivity() {
         goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
         // Tie the GoalsViewModel to the MainActivity lifecycle
         goalsViewModel.bindToActivityLifecycle(this)
+        // Either sets goals to defaults or retrieves goals set by user
+        goalsViewModel.loadData()
+
+        // Create garden view model
+        gardenViewModel = ViewModelProvider(this)[GardenViewModel::class.java]
+        // Tie the GardenViewModel to the MainActivity lifecycle
+        gardenViewModel.bindToActivityLifecycle(this)
+        // Either sets goals to defaults or retrieves goals set by user
+        gardenViewModel.loadData()
+
+        // Initialize the broadcast receiver with the garden viewmodel
+        dateReceiver = DateChangeReceiver(goalsViewModel)
 
        // goalsViewModel.setDefaultGoals()
 
@@ -55,6 +68,7 @@ class MainActivity : AppCompatActivity() {
             val startGardenIntent = Intent(this, GardenActivity::class.java)
             startActivity(startGardenIntent)
         }
+<<<<<<< HEAD
 
         /*
         // Either sets goals to defaults or retrieves goals set by user
@@ -74,12 +88,44 @@ class MainActivity : AppCompatActivity() {
 
         // Either sets goals to defaults or retrieves goals set by user
         gardenViewModel.setDefaultDays()
+=======
+>>>>>>> d0f27168765f1f31cb24c63f23f7d9d39613ad76
     }
 
     override fun onStart() {
         super.onStart()
-        when (gardenViewModel.daysGrown.value) {
-            0 -> binding.flower.setImageResource(R.drawable.blank_img)
+
+        registerReceiver(
+            dateReceiver,
+            IntentFilter(Intent.ACTION_DATE_CHANGED)
+        )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        /*
+         * Goals could be completed for today, but we don't want the plant to show a new stage
+         * of growth until tomorrow. This is to avoid it "ungrowing" if new goals are added.
+         * The following if else block determines the value to be used for deciding which image
+         * to display.
+         */
+        var stageNum: Int // Will determine image to display depending on stage of growth
+        val currDate = LocalDate.now()
+
+        // checks if goals were completed today
+        if (gardenViewModel.lastDayGrown.value?.dayOfYear == currDate.dayOfYear &&
+            gardenViewModel.lastDayGrown.value?.year == currDate.year) {
+            stageNum = gardenViewModel.daysGrown.value?.minus(1)!!
+        // Check if goals have been completed 7 days in a row
+        // Days grown would have been incremented the day before, but now we grow/update
+        } else if (gardenViewModel.daysGrown.value!! == 8){
+            finishPlant()
+            stageNum = gardenViewModel.daysGrown.value!!
+        } else {
+            stageNum = gardenViewModel.daysGrown.value!!
+        }
+
+        when (stageNum) {
             1 -> binding.flower.setImageResource(R.drawable.flower1)
             2 -> binding.flower.setImageResource(R.drawable.flower2)
             3 -> binding.flower.setImageResource(R.drawable.flower3)
@@ -88,6 +134,12 @@ class MainActivity : AppCompatActivity() {
             6 -> binding.flower.setImageResource(R.drawable.flower6)
             7 -> binding.flower.setImageResource(R.drawable.flower7)
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        unregisterReceiver(dateReceiver)
     }
 
     private fun finishPlant() {
