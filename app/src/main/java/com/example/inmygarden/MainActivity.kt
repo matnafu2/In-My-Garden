@@ -175,20 +175,20 @@ class MainActivity : AppCompatActivity() {
                     growthDay = true
                     goalsCompletedSnackbar()
                 } else if (completed > 0 &&
-                    completed % (oneThird * 2) == 0) { // two-thirds of goals completed
+                    completed >= (oneThird * 2)) { // two-thirds of goals completed
                     // fill first and second checkbox
                     fillCheckbox(arrayOf(1, 2), true)
                     // empty last checkbox
                     fillCheckbox(arrayOf(3), false)
                     growthDay = false
                 } else if (completed > 0 &&
-                    completed % oneThird == 0) { // one third of goals completed
+                    completed >= oneThird) { // one third of goals completed
                     // fill first checkbox
                     fillCheckbox(arrayOf(1), true)
                     // empty other two checkboxes
                     fillCheckbox(arrayOf(2, 3), false)
                     growthDay = false
-                } else { // no goals completed
+                } else { // fewer than 1/3 of goals completed
                     // empty all checkboxes
                     fillCheckbox(arrayOf(1, 2, 3), false)
                     growthDay = false
