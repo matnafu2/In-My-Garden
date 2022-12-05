@@ -18,6 +18,8 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
      * (one week). This will allow for the proper stage of growth to be displayed, and for
      * knowing when to start a new plant.
      */
+    private val _plantsFinished: MutableLiveData<Int> =
+        MutableLiveData<Int>(0)
     private val _daysGrown: MutableLiveData<Int> =
         MutableLiveData<Int>(1)
     internal val daysGrown: LiveData<Int>
@@ -54,7 +56,7 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
     /*
      * Either new data needs to be set, or data created from previous sessions needs to be loaded.
      */
-    internal fun loadData() {
+    internal fun loadData(mainActivity: MainActivity) {
         _plantFinished.postValue(false) // This is determined in main activity
         val userData = database.child("gardenData").child(userId)
         var lastDay = ""
