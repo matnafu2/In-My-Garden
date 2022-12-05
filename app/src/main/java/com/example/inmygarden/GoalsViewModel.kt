@@ -61,12 +61,20 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
         _dailyTotal.value = _dailyTotal.value!! + 1
     }
 
+    internal  fun subDailyTotal() {
+        _dailyTotal.value = _dailyTotal.value!! - 1
+    }
+
     internal fun addGoal(str : String, int : Int) {
-        _goals.value!!.put(str, int)
+        _goals.value!![str] = int
+    }
+
+    internal  fun removeGoal(str : String) {
+        _goals.value!!.remove(str)
     }
 
 
-    /*
+    /*test
      * Either new data needs to be set, or data created from previous sessions needs to be loaded.
      */
     /*

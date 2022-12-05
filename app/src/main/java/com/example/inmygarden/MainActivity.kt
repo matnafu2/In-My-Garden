@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Create goals view model
-        goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
+        //goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
         // Tie the GoalsViewModel to the MainActivity lifecycle
         goalsViewModel.bindToActivityLifecycle(this)
         // Either sets goals to defaults or retrieves goals set by user
@@ -339,5 +339,6 @@ class MainActivity : AppCompatActivity() {
     }
     companion object {
         val gardenViewModel = GardenViewModel()
+        val goalsViewModel = GoalsViewModel()
     }
 }

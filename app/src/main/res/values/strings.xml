@@ -48,6 +48,7 @@
     <string name="delete">Delete</string>
     <string name="forgot_password">Forgot password ?</string>
     <string name="sing_up">Sing up</string>
+    <string name="Back">Back</string>
 
 
 </resources>

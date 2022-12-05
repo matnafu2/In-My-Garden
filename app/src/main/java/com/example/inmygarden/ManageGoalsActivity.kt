@@ -1,6 +1,7 @@
 package com.example.inmygarden
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
@@ -8,22 +9,20 @@ import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
 
 
 class ManageGoalsActivity : AppCompatActivity() {
 
-    private lateinit var goalsViewModel: GoalsViewModel
     private lateinit var sharedPrefs: SharedPreferences
 
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_goals)
-        goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
         sharedPrefs = this.getSharedPreferences("application", Context.MODE_PRIVATE)
-        goalsViewModel.loadData(sharedPrefs)
+        MainActivity.goalsViewModel.loadData(sharedPrefs)
+
+
 
 
 
@@ -34,10 +33,12 @@ class ManageGoalsActivity : AppCompatActivity() {
         */
 
         val goals = sharedPrefs.getStringSet("Goals", mutableSetOf())
+        val editor = sharedPrefs.edit()
+        var newList : Set<String>
 
-        goals!!.forEach { it ->
+        goals!!.forEach { str ->
             val but = Button(this)
-            but.text = it
+            but.text = str
             findViewById<LinearLayout>(R.id.goals_root).addView(but)
             but.setOnClickListener {
                 val pop = PopupMenu(this, but)
@@ -45,14 +46,18 @@ class ManageGoalsActivity : AppCompatActivity() {
                 pop.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.delete -> {
-                            goalsViewModel.goals.value?.remove(it.toString(), -1)
-                            sharedPrefs.getStringSet("Goals", mutableSetOf())!!.remove(it.toString())
+                            MainActivity.goalsViewModel.subDailyTotal()
+                            MainActivity.goalsViewModel.goals.value!!.remove(str, -1)
+
+                            updateData()
+
+
                             Toast.makeText(this, "Goal deleted", Toast.LENGTH_SHORT).show()
                             findViewById<LinearLayout>(R.id.goals_root).removeView(but)
                         }
                         R.id.complete -> {
-                            goalsViewModel.addDailyComplete()
-                            updateDailyComplete(goalsViewModel.dailyComplete.value!!)
+                            MainActivity.goalsViewModel.addDailyComplete()
+                            updateDailyComplete(MainActivity.goalsViewModel.dailyComplete.value!!)
                             Toast.makeText(this, "Goal Completed", Toast.LENGTH_SHORT)
                                 .show()
                             findViewById<LinearLayout>(R.id.goals_root).removeView(but)
@@ -66,12 +71,42 @@ class ManageGoalsActivity : AppCompatActivity() {
             }
         }
 
+        findViewById<Button>(R.id.goals_back).setOnClickListener {
+
+            /*
+            val intent = Intent(this@ManageGoalsActivity, GoalsActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivityIfNeeded(intent, 0)
+
+             */
+
+            // updateData()
+            val intent = Intent(this@ManageGoalsActivity, GoalsActivity::class.java)
+            startActivity(intent)
+        }
+
+
+
+
     }
 
     private fun updateDailyComplete (int : Int) {
         val editor = sharedPrefs.edit()
         editor.putInt(R.string.daily_complete.toString(), int)
         editor.apply()
+    }
+
+    private fun updateData () {
+        val editor = sharedPrefs.edit()
+
+        MainActivity.goalsViewModel.goals.observe(this) {
+            editor.remove("Goals")
+            editor.commit()
+            editor.putStringSet("Goals", MainActivity.goalsViewModel.goals.value!!.keys)
+            editor.commit()
+        }
+
+
     }
 
 

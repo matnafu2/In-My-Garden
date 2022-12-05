@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 
 class GoalsActivity : AppCompatActivity() {
 
-    private lateinit var goalsViewModel: GoalsViewModel
+    //private lateinit var goalsViewModel: GoalsViewModel
     private lateinit var sharedPrefs: SharedPreferences
 
 
@@ -26,8 +26,9 @@ class GoalsActivity : AppCompatActivity() {
         sharedPrefs = this.getSharedPreferences("application", Context.MODE_PRIVATE)
 
         //here i am putting actions for each button pres
-        goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
-        goalsViewModel.loadData(sharedPrefs)
+        //goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
+        MainActivity.goalsViewModel.loadData(sharedPrefs)
+
 
 
         //when they add a custom goal
@@ -37,47 +38,81 @@ class GoalsActivity : AppCompatActivity() {
             if (temp == "") {
                 Toast.makeText(this, "Not a valid goal!", Toast.LENGTH_SHORT).show()
             } else {
-                goalsViewModel.addGoal(temp, -1)
-                goalsViewModel.addDailyTotal()
+                MainActivity.goalsViewModel.addGoal(temp, -1)
+                MainActivity.goalsViewModel.addDailyTotal()
 
-                val editor = sharedPrefs.edit()
-                val list = sharedPrefs.getStringSet("Goals", mutableSetOf())
-
+                /*
                 if (list == null) {
-                    editor.putStringSet("Goals", goalsViewModel.goals.value!!.keys)
+                    editor.putStringSet("Goals", MainActivity.goalsViewModel.goals.value!!.keys)
                     editor.apply()
                 } else {
-                    list.add(temp)
+                    editor.remove("Goals").commit()
+                    editor.putStringSet("Goals", MainActivity.goalsViewModel.goals.value!!.keys)
                     editor.apply()
                 }
 
-                updateDailyTotal(goalsViewModel.dailyTotal.value!!)
+                 */
+                updateData()
+
+                updateDailyTotal(MainActivity.goalsViewModel.dailyTotal.value!!)
 
                 findViewById<TextView>(R.id.text_custom).text = ""
-                Toast.makeText(this, "Total Goals:" + goalsViewModel.dailyTotal.value.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Goal Added!", Toast.LENGTH_SHORT).show()
             }
 
         }
 
+
         findViewById<Button>(R.id.the_home_button).setOnClickListener {
+            /*
             val intent = Intent(this@GoalsActivity, MainActivity::class.java)
             startActivity(intent)
+
+             */
+            val intent = Intent(this@GoalsActivity, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivityIfNeeded(intent, 0)
+
+
+
         }
 
         findViewById<Button>(R.id.the_goals_button).setOnClickListener {
+            //updateData()
             val intent = Intent(this@GoalsActivity, ManageGoalsActivity::class.java)
             startActivity(intent)
+
+
+            /*
+            val intent = Intent(this@GoalsActivity, ManageGoalsActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivityIfNeeded(intent, 0)
+
+            */
+
+
         }
-
-
-
     }
-
 
     private fun updateDailyTotal (int : Int) {
         val editor = sharedPrefs.edit()
         editor.putInt(R.string.daily_total.toString(), int)
         editor.apply()
     }
+
+    private fun updateData () {
+        val editor = sharedPrefs.edit()
+
+
+        MainActivity.goalsViewModel.goals.observe(this) {
+
+            editor.putStringSet("Goals", MainActivity.goalsViewModel.goals.value!!.keys)
+            editor.commit()
+        }
+
+    }
+
+
+
 
 }
