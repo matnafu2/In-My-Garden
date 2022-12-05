@@ -53,14 +53,11 @@ class GoalsActivity : AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             startActivityIfNeeded(intent, 0)
 
-
-
         }
 
         findViewById<Button>(R.id.the_goals_button).setOnClickListener {
             val intent = Intent(this@GoalsActivity, ManageGoalsActivity::class.java)
             startActivity(intent)
-
 
         }
     }

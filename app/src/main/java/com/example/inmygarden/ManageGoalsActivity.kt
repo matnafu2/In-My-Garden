@@ -1,6 +1,5 @@
 package com.example.inmygarden
 
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -87,12 +86,9 @@ class ManageGoalsActivity : AppCompatActivity() {
                         }
                         R.id.complete -> {
                             MainActivity.goalsViewModel.addDailyComplete()
-                            MainActivity.goalsViewModel.removeGoal(str)
                             MainActivity.goalsViewModel.updateData(sharedPrefs)
                             Toast.makeText(this, "Goal Completed", Toast.LENGTH_SHORT)
                                 .show()
-                            findViewById<LinearLayout>(R.id.goals_root).removeView(but)
-
                         }
                     }
                     true
