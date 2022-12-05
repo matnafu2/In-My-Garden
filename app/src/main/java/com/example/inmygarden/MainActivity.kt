@@ -1,6 +1,8 @@
 package com.example.inmygarden
 
+import android.app.AlarmManager
 import android.app.AlertDialog
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -9,10 +11,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.inmygarden.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDate
 import java.util.*
@@ -86,6 +91,10 @@ class MainActivity : AppCompatActivity() {
             gardenViewModel.testDayComplete()
             goalsViewModel.testDayComplete()
         }
+
+        binding.reminderBtn.setOnClickListener {
+            handleNotification()
+        }
     }
 
 
@@ -112,7 +121,13 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
 
+//        unregisterReceiver(dateReceiver)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         unregisterReceiver(dateReceiver)
+
     }
 
     private fun finishPlant() {
@@ -337,8 +352,53 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    // notification handler
+    private fun handleNotification() {
+
+        val calendar  = Calendar.getInstance()
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = calendar.get(Calendar.MINUTE)
+
+
+        // on a click of a button show a time picker
+        binding.reminderBtn.setOnClickListener {
+            val timePicker = MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_12H)
+                .setHour(currentHour)
+                .setMinute(currentMinute)
+                .setTitleText("Set Daily Notification Time")
+                .build()
+
+            // get the selected time from the time picker
+            timePicker.show(supportFragmentManager, "1")
+            timePicker.addOnPositiveButtonClickListener {
+                calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
+                calendar.set(Calendar.MINUTE, timePicker.minute)
+                calendar.set(Calendar.SECOND, 0)
+                calendar.set(Calendar.MILLISECOND, 0)
+
+                val intent = Intent(applicationContext, NotificationReceiver::class.java)
+                val pendingIntent =
+                    PendingIntent.getBroadcast(
+                        applicationContext, 100,
+                        intent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                    )
+
+                // the pending intent will be called once a day
+                val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,  calendar.timeInMillis,
+                        AlarmManager.INTERVAL_DAY, pendingIntent)
+
+                Toast.makeText(applicationContext, "The alarm has been set", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
     companion object {
         val gardenViewModel = GardenViewModel()
         val goalsViewModel = GoalsViewModel()
     }
+
 }
