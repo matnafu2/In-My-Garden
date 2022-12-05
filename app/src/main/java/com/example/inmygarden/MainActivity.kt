@@ -81,11 +81,13 @@ class MainActivity : AppCompatActivity() {
             goalsViewModel.testGoalsComplete()
         }
 
+
         binding.testDaysButton.setOnClickListener {
             gardenViewModel.testDayComplete()
             goalsViewModel.testDayComplete()
         }
     }
+
 
     override fun onStart() {
         super.onStart()

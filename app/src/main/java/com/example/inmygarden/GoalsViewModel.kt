@@ -53,6 +53,16 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
 
     }
 
+
+    internal fun addDailyComplete() {
+        _dailyComplete.value = _dailyComplete.value!! + 1
+    }
+
+    internal fun addDailyTotal() {
+        _dailyTotal.value = _dailyTotal.value!! + 1
+    }
+
+
     /*
      * Either new data needs to be set, or data created from previous sessions needs to be loaded.
      */
