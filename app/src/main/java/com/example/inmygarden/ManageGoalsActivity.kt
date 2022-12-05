@@ -10,12 +10,19 @@ import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 
 class ManageGoalsActivity : AppCompatActivity() {
 
     private lateinit var sharedPrefs: SharedPreferences
-
+    private var database: DatabaseReference =
+        Firebase.database.reference
+    private var userId: String =
+        FirebaseAuth.getInstance().uid.toString()
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +40,36 @@ class ManageGoalsActivity : AppCompatActivity() {
         the goals can now probably be seen on this screen
         just need to add when they complete a goal or delete it, that data gets updated accordingly
         */
-
+        /*
         val goals = sharedPrefs.getStringSet("Goals", mutableSetOf())
 
-        goals!!.forEach { str ->
+        if (goals != null) {
+            addGoals(goals)
+        }*/
+
+        val goalsData = database.child("goals").child(userId).child("goalsData")
+        goalsData.get().addOnSuccessListener {
+            if (it.value != null) {
+                addGoals(it.value as HashMap<String, Int>)
+            }
+        }
+
+        findViewById<Button>(R.id.goals_back).setOnClickListener {
+            val intent = Intent(this@ManageGoalsActivity, GoalsActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivityIfNeeded(intent, 0)
+        }
+
+        findViewById<Button>(R.id.delete_all).setOnClickListener {
+
+            MainActivity.goalsViewModel.resetGoals()
+            MainActivity.goalsViewModel.updateData(sharedPrefs)
+            findViewById<LinearLayout>(R.id.goals_root).removeAllViews()
+        }
+
+    }
+    private fun addGoals(goals: HashMap<String, Int>) {
+        goals.keys.forEach { str ->
             val but = Button(this)
             but.text = str
             findViewById<LinearLayout>(R.id.goals_root).addView(but)
@@ -76,13 +109,5 @@ class ManageGoalsActivity : AppCompatActivity() {
 
 
         }
-
-        findViewById<Button>(R.id.delete_all).setOnClickListener {
-
-            MainActivity.goalsViewModel.resetGoals()
-            MainActivity.goalsViewModel.updateData(sharedPrefs)
-            findViewById<LinearLayout>(R.id.goals_root).removeAllViews()
-        }
-
     }
 }

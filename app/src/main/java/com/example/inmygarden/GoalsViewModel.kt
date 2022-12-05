@@ -1,6 +1,7 @@
 package com.example.inmygarden
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -127,6 +128,18 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
 
         }
     }*/
+    internal fun loadMapFromFirebase() {
+        val userData = database.child("goals").child(userId)
+        userData.child("goalsData").get().addOnSuccessListener {
+            if (it.value != null) {
+                _goals.value = it.value as HashMap<String, Int>?
+            } else {
+                _goals.value = HashMap<String, Int>()
+            }
+        }.addOnFailureListener {
+            _goals.value = HashMap<String, Int>()
+        }
+    }
     internal fun loadData(sharedPrefs: SharedPreferences) {
         var isPrevData = false
         if (sharedPrefs.contains(R.string.daily_total.toString())) {
@@ -140,10 +153,11 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
             _lastLogin.value = LocalDate.now()
         } else {
             // load goals hashmap
-
+            loadMapFromFirebase()
             // load daily complete (Need to check if it's a new day)
             val currDate = LocalDate.now()
-            val lastDate = sharedPrefs.getString(R.string.last_day_grown.toString(), "01/01/1900")
+            Log.i("currdate", "$currDate")
+            val lastDate = sharedPrefs.getString(R.string.last_day_grown.toString(), "1900-01-01")
 
             // if is same day as last login
             if (LocalDate.parse(lastDate).dayOfYear == currDate.dayOfYear &&
@@ -182,21 +196,27 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
     internal fun updateData (pref : SharedPreferences) {
         val editor = pref.edit()
 
-        editor.putStringSet("Goals", _goals.value!!.keys)
-        editor.commit()
+        //editor.putStringSet("Goals", _goals.value!!.keys)
+        //editor.commit()
 
         editor.putInt(R.string.daily_total.toString(), _dailyTotal.value!!)
         editor.commit()
 
         editor.putInt(R.string.daily_complete.toString(), _dailyComplete.value!!)
         editor.commit()
+        postMapToFirebase()
 
+    }
+    internal fun postMapToFirebase () {
+        val userData = database.child("goals").child(userId)
+        userData.child("goalsData").setValue(_goals.value)
     }
 
     internal fun resetGoals() {
         _dailyComplete.value = 0
         _dailyTotal.value = 0
         _goals.value!!.clear()
+        postMapToFirebase()
     }
 
     internal fun testDayComplete() {

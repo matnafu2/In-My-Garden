@@ -55,9 +55,6 @@ class GardenActivity : AppCompatActivity() {
     }
 
     private fun loadFlowers() {
-        gardenViewModel.plantsFinished.observe(this) {
-            Log.i("loadFlowers", "observed flowers = $it")
-        }
         val numFlowers = gardenViewModel.plantsFinished.value
         Log.i("loadFlowers", "numFlowers = $numFlowers")
         var count = 0
