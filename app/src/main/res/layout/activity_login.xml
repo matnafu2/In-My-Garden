@@ -73,7 +73,7 @@
             android:layout_height="48dp"
             android:layout_marginBottom="30dp"
             android:background="@drawable/button_background"
-            android:text="Log in"
+            android:text="@string/log_in"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="21sp" />
@@ -84,7 +84,7 @@
             android:layout_height="48dp"
             android:layout_marginBottom="30dp"
             android:background="@drawable/button_background"
-            android:text="Sing up"
+            android:text="@string/sign_up"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="21sp" />

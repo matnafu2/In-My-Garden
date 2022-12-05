@@ -47,9 +47,10 @@
     <string name="complete">Complete</string>
     <string name="delete">Delete</string>
     <string name="forgot_password">Forgot password ?</string>
-    <string name="sing_up">Sing up</string>
     <string name="Back">Back</string>
     <string name="delete_all">Reset All</string>
+    <string name="sign_up">Sign up</string>
+    <string name="log_in">Log in</string>
 
 
 </resources>
