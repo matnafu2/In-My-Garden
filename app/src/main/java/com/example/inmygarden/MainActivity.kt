@@ -360,38 +360,34 @@ class MainActivity : AppCompatActivity() {
         val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
         val currentMinute = calendar.get(Calendar.MINUTE)
 
+        val timePicker = MaterialTimePicker.Builder()
+            .setTimeFormat(TimeFormat.CLOCK_12H)
+            .setHour(currentHour)
+            .setMinute(currentMinute)
+            .setTitleText("Set Daily Notification Time")
+            .build()
 
-        // on a click of a button show a time picker
-        binding.reminderBtn.setOnClickListener {
-            val timePicker = MaterialTimePicker.Builder()
-                .setTimeFormat(TimeFormat.CLOCK_12H)
-                .setHour(currentHour)
-                .setMinute(currentMinute)
-                .setTitleText("Set Daily Notification Time")
-                .build()
+        // get the selected time from the time picker
+        timePicker.show(supportFragmentManager, "1")
+        timePicker.addOnPositiveButtonClickListener {
+            calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
+            calendar.set(Calendar.MINUTE, timePicker.minute)
+            calendar.set(Calendar.SECOND, 0)
+            calendar.set(Calendar.MILLISECOND, 0)
 
-            // get the selected time from the time picker
-            timePicker.show(supportFragmentManager, "1")
-            timePicker.addOnPositiveButtonClickListener {
-                calendar.set(Calendar.HOUR_OF_DAY, timePicker.hour)
-                calendar.set(Calendar.MINUTE, timePicker.minute)
-                calendar.set(Calendar.SECOND, 0)
-                calendar.set(Calendar.MILLISECOND, 0)
+            val intent = Intent(applicationContext, NotificationReceiver::class.java)
+            val pendingIntent =
+                PendingIntent.getBroadcast(
+                    applicationContext, 100,
+                    intent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
 
-                val intent = Intent(applicationContext, NotificationReceiver::class.java)
-                val pendingIntent =
-                    PendingIntent.getBroadcast(
-                        applicationContext, 100,
-                        intent, PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                    )
+            // the pending intent will be called once a day
+            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,  calendar.timeInMillis,
+                    AlarmManager.INTERVAL_DAY, pendingIntent)
 
-                // the pending intent will be called once a day
-                val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,  calendar.timeInMillis,
-                        AlarmManager.INTERVAL_DAY, pendingIntent)
-
-                Toast.makeText(applicationContext, "The alarm has been set", Toast.LENGTH_SHORT).show()
-            }
+            Toast.makeText(applicationContext, "The alarm has been set", Toast.LENGTH_SHORT).show()
         }
     }
 
