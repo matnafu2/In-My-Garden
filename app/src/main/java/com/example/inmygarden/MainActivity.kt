@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
     private fun finishPlant() {
         Log.i("Main", "growth complete")
         sendBroadcast(Intent("finished"))
-        gardenViewModel.growthComplete()
+        gardenViewModel.growthComplete(sharedPrefs)
     }
 
 

@@ -61,9 +61,12 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
             _lastDayGrown.value = LocalDate.parse(lastDay)
         }
     }
-    internal fun growthComplete() {
+    internal fun growthComplete(sharedPrefs: SharedPreferences) {
         _plantFinished.value = true
         _daysGrown.value = 1
+        val editor = sharedPrefs.edit()
+        editor.putInt(R.string.days_grown.toString(), _daysGrown.value!!)
+        editor.apply()
     }
 
     internal fun resetPlantFinished() {
