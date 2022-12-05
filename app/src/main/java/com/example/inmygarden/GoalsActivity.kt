@@ -2,7 +2,9 @@ package com.example.inmygarden
 
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -11,73 +13,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 
 
-
 class GoalsActivity : AppCompatActivity() {
 
     private lateinit var goalsViewModel: GoalsViewModel
+    private lateinit var sharedPrefs: SharedPreferences
+
 
     @SuppressLint("CutPasteId")
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_goals)
+        sharedPrefs = this.getSharedPreferences("application", Context.MODE_PRIVATE)
 
         //here i am putting actions for each button pres
-//        goalsViewModel = ViewModelProvider(mainActivity)[GoalsViewModel::class.java]
         goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
-
-        /*
-        //when they add water goal
-        findViewById<Button>(R.id.water_button).setOnClickListener {
-
-
-            val temp = findViewById<TextView>(R.id.text_water).text.toString()
-
-            if (temp.toIntOrNull() == null || temp == "") {
-                Toast.makeText(this,"Not a valid number!", Toast.LENGTH_SHORT).show()
-            } else {
-                goalsViewModel.goals.value?.put("Water", temp.toInt())
-                goalsViewModel.dailyTotal.value?.plus(i)
-                findViewById<TextView>(R.id.text_water).text = ""
-                Toast.makeText(this, "Goal added!", Toast.LENGTH_SHORT).show()
-            }
-
-        }
-
-
-        //when they add steps goal
-        findViewById<Button>(R.id.steps_button).setOnClickListener {
-            val temp = findViewById<TextView>(R.id.text_steps).text.toString()
-
-            if (temp.toIntOrNull() == null || temp == "") {
-                Toast.makeText(this, "Not a valid number!", Toast.LENGTH_SHORT).show()
-            } else {
-                goalsViewModel.goals.value?.put("Steps", temp.toInt())
-                goalsViewModel.dailyTotal.value?.plus(i)
-                findViewById<TextView>(R.id.text_steps).text = ""
-                Toast.makeText(this, "Goal added!", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-
-        //when they add sleep goal
-        findViewById<Button>(R.id.sleep_button).setOnClickListener {
-            val temp = findViewById<TextView>(R.id.text_sleep).text.toString()
-
-            if (temp.toIntOrNull() == null || temp == "") {
-                Toast.makeText(this, "Not a valid number!", Toast.LENGTH_SHORT).show()
-            } else {
-                goalsViewModel.goals.value?.put("Sleep", temp.toInt())
-                goalsViewModel.dailyTotal.value?.plus(i)
-                findViewById<TextView>(R.id.text_sleep).text = ""
-                Toast.makeText(this, "Goal added!", Toast.LENGTH_SHORT).show()
-
-            }
-
-
-
-        }
-
-         */
+        goalsViewModel.loadData(sharedPrefs)
 
 
         //when they add a custom goal
@@ -87,10 +37,13 @@ class GoalsActivity : AppCompatActivity() {
             if (temp == "") {
                 Toast.makeText(this, "Not a valid goal!", Toast.LENGTH_SHORT).show()
             } else {
-                goalsViewModel.goals.value?.put(temp, -1)
+                goalsViewModel.addGoal(temp, -1)
                 goalsViewModel.addDailyTotal()
+                updateGoals(temp)
+                updateDailyTotal(goalsViewModel.dailyTotal.value!!)
+
                 findViewById<TextView>(R.id.text_custom).text = ""
-                Toast.makeText(this, "Goal added!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Total Goals:" + goalsViewModel.dailyTotal.value.toString(), Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -105,6 +58,20 @@ class GoalsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+
+    }
+
+    private fun updateGoals (str : String) {
+        val editor = sharedPrefs.edit()
+        editor.putStringSet("Goals", goalsViewModel.goals.value!!.keys)
+        editor.apply()
+    }
+
+    private fun updateDailyTotal (int : Int) {
+        val editor = sharedPrefs.edit()
+        editor.putInt(R.string.daily_total.toString(), int)
+        editor.apply()
     }
 
 }
