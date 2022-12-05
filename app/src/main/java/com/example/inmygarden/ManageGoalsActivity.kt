@@ -80,14 +80,14 @@ class ManageGoalsActivity : AppCompatActivity() {
                     when (item.itemId) {
                         R.id.delete -> {
                             MainActivity.goalsViewModel.subDailyTotal()
-                            MainActivity.goalsViewModel.goals.value!!.remove(str, -1)
+                            MainActivity.goalsViewModel.removeGoal(str)
                             MainActivity.goalsViewModel.updateData(sharedPrefs)
                             Toast.makeText(this, "Goal deleted", Toast.LENGTH_SHORT).show()
                             findViewById<LinearLayout>(R.id.goals_root).removeView(but)
                         }
                         R.id.complete -> {
                             MainActivity.goalsViewModel.addDailyComplete()
-                            MainActivity.goalsViewModel.goals.value!!.remove(str, -1)
+                            MainActivity.goalsViewModel.removeGoal(str)
                             MainActivity.goalsViewModel.updateData(sharedPrefs)
                             Toast.makeText(this, "Goal Completed", Toast.LENGTH_SHORT)
                                 .show()
@@ -99,15 +99,6 @@ class ManageGoalsActivity : AppCompatActivity() {
                 }
                 pop.show()
             }
-        }
-
-        findViewById<Button>(R.id.goals_back).setOnClickListener {
-
-            val intent = Intent(this@ManageGoalsActivity, GoalsActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-            startActivityIfNeeded(intent, 0)
-
-
         }
     }
 }
