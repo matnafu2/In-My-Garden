@@ -2,6 +2,13 @@ package com.example.inmygarden
 
 import android.content.SharedPreferences
 import androidx.lifecycle.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import java.time.LocalDate
 
 class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
@@ -39,6 +46,11 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
         _dailyComplete.value = 0
         _dailyTotal.value = 3
     }
+    //firebase database vars
+    private var database: DatabaseReference =
+        Firebase.database.reference
+    private var userId: String =
+        FirebaseAuth.getInstance().uid.toString()
 
 
     internal fun addDailyComplete() {
@@ -53,6 +65,56 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
     /*
      * Either new data needs to be set, or data created from previous sessions needs to be loaded.
      */
+    /*
+    internal fun loadData() {
+        val userData = database.child("goals").child(userId)
+        //get the goals data from firebase, if available
+        userData.child("goalsData").get().addOnSuccessListener {
+            if (it.value != null) {
+                _goals.value = it.value as HashMap<String, Int>?
+            } else {
+                _goals.value = HashMap<String, Int>()
+            }
+        }.addOnFailureListener {
+            _goals.value = HashMap<String, Int>()
+        }
+        val currDate = LocalDate.now()
+        //get last date from firebase if available
+        userData.child("lastDate").get().addOnSuccessListener { storedDate ->
+            if (storedDate.value != null && storedDate.value != "null") {
+                val lastDate = storedDate.value as String
+                // if is same day as last login, then get the saved daily complete if avail
+                if (LocalDate.parse(lastDate).dayOfYear == currDate.dayOfYear &&
+                    LocalDate.parse(lastDate).year == currDate.year
+                ) {
+                    userData.child("dailyComplete").get().addOnSuccessListener {
+                        if (it.value != null) {
+                            _dailyComplete.value = it.value as Int
+                        } else {
+                            _dailyComplete.value = 0
+                            _lastLogin.value = currDate
+                        }
+                    }.addOnFailureListener {
+                        _dailyComplete.value = 0
+                        _lastLogin.value = currDate
+                    }
+                }
+            } else {
+                _dailyComplete.value = 0
+                _lastLogin.value = currDate
+            }
+        }.addOnFailureListener() {
+            _dailyComplete.value = 0
+            _lastLogin.value = currDate
+        }
+        userData.child("dailyTotal").get().addOnSuccessListener {
+            if (it.value != null && it.value != "null") {
+                _dailyTotal.value = it.value as Int
+            }
+            //_dailyTotal.value = sharedPrefs.getInt(R.string.daily_total.toString(), 0)
+
+        }
+    }*/
     internal fun loadData(sharedPrefs: SharedPreferences) {
         var isPrevData = false
         if (sharedPrefs.contains(R.string.daily_total.toString())) {
@@ -107,5 +169,21 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
 
     internal fun testDayComplete() {
         dateUpdated()
+    } /*
+    val goalsMapListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+        }
+        override fun onCancelled(error: DatabaseError) {
+            TODO("Not yet implemented")
+        }
     }
+    val dailyCompleteListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+        }
+        override fun onCancelled(error: DatabaseError) {
+            TODO("Not yet implemented")
+        }
+    }*/
 }
