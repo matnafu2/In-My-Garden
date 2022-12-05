@@ -21,6 +21,7 @@ class ManageGoalsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_goals)
         sharedPrefs = this.getSharedPreferences("application", Context.MODE_PRIVATE)
+
         MainActivity.goalsViewModel.loadData(sharedPrefs)
 
 
@@ -68,8 +69,12 @@ class ManageGoalsActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.goals_back).setOnClickListener {
+
             val intent = Intent(this@ManageGoalsActivity, GoalsActivity::class.java)
-            startActivity(intent)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivityIfNeeded(intent, 0)
+
+
         }
 
         findViewById<Button>(R.id.delete_all).setOnClickListener {

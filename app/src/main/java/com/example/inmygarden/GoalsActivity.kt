@@ -65,14 +65,6 @@ class GoalsActivity : AppCompatActivity() {
             startActivity(intent)
 
 
-            /*
-            val intent = Intent(this@GoalsActivity, ManageGoalsActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-            startActivityIfNeeded(intent, 0)
-
-            */
-
-
         }
     }
 
