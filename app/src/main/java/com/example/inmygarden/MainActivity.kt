@@ -68,7 +68,6 @@ class MainActivity : AppCompatActivity() {
             val startGardenIntent = Intent(this, GardenActivity::class.java)
             startActivity(startGardenIntent)
         }
-<<<<<<< HEAD
 
         /*
         // Either sets goals to defaults or retrieves goals set by user
@@ -81,15 +80,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        // Create garden view model
-        gardenViewModel = ViewModelProvider(this)[GardenViewModel::class.java]
-        // Tie the GardenViewModel to the MainActivity lifecycle
-        gardenViewModel.bindToActivityLifecycle(this)
 
-        // Either sets goals to defaults or retrieves goals set by user
-        gardenViewModel.setDefaultDays()
-=======
->>>>>>> d0f27168765f1f31cb24c63f23f7d9d39613ad76
     }
 
     override fun onStart() {
