@@ -34,40 +34,6 @@ class ManageGoalsActivity : AppCompatActivity() {
         */
 
         val goals = sharedPrefs.getStringSet("Goals", mutableSetOf())
-        /*
-        goalsViewModel.goals.value?.forEach { (key, value) ->
-                    val but = Button(this)
-                    but.text = key
-                    findViewById<LinearLayout>(R.id.goals_root).addView(but)
-                    but.setOnClickListener {
-                        val pop = PopupMenu(this, but)
-                        pop.menuInflater.inflate(R.menu.goals_menu, pop.menu)
-                        pop.setOnMenuItemClickListener { item ->
-                            when (item.itemId) {
-                                R.id.delete -> {
-                                    goalsViewModel.goals.value?.remove(key, value)
-                                    Toast.makeText(this, "Goal deleted", Toast.LENGTH_SHORT).show()
-                                    findViewById<LinearLayout>(R.id.goals_root).removeView(but)
-
-                                }
-                                R.id.complete -> {
-                                    goalsViewModel.goals.value?.remove(key, value)
-                                    goalsViewModel.addDailyComplete()
-                                    updateDailyComplete(goalsViewModel.dailyComplete.value!!)
-                                    Toast.makeText(this, "Goal Completed", Toast.LENGTH_SHORT)
-                                        .show()
-                                    findViewById<LinearLayout>(R.id.goals_root).removeView(but)
-
-                                }
-                            }
-                            true
-                        }
-                        pop.show()
-
-                    }
-        }
-        */
-
 
         goals!!.forEach { it ->
             val but = Button(this)
@@ -80,12 +46,11 @@ class ManageGoalsActivity : AppCompatActivity() {
                     when (item.itemId) {
                         R.id.delete -> {
                             goalsViewModel.goals.value?.remove(it.toString(), -1)
+                            sharedPrefs.getStringSet("Goals", mutableSetOf())!!.remove(it.toString())
                             Toast.makeText(this, "Goal deleted", Toast.LENGTH_SHORT).show()
                             findViewById<LinearLayout>(R.id.goals_root).removeView(but)
-
                         }
                         R.id.complete -> {
-                            goalsViewModel.goals.value?.remove(it.toString(), -1)
                             goalsViewModel.addDailyComplete()
                             updateDailyComplete(goalsViewModel.dailyComplete.value!!)
                             Toast.makeText(this, "Goal Completed", Toast.LENGTH_SHORT)
@@ -108,5 +73,6 @@ class ManageGoalsActivity : AppCompatActivity() {
         editor.putInt(R.string.daily_complete.toString(), int)
         editor.apply()
     }
+
 
 }

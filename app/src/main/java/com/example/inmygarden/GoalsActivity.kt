@@ -39,7 +39,18 @@ class GoalsActivity : AppCompatActivity() {
             } else {
                 goalsViewModel.addGoal(temp, -1)
                 goalsViewModel.addDailyTotal()
-                updateGoals(temp)
+
+                val editor = sharedPrefs.edit()
+                val list = sharedPrefs.getStringSet("Goals", mutableSetOf())
+
+                if (list == null) {
+                    editor.putStringSet("Goals", goalsViewModel.goals.value!!.keys)
+                    editor.apply()
+                } else {
+                    list.add(temp)
+                    editor.apply()
+                }
+
                 updateDailyTotal(goalsViewModel.dailyTotal.value!!)
 
                 findViewById<TextView>(R.id.text_custom).text = ""
@@ -62,11 +73,6 @@ class GoalsActivity : AppCompatActivity() {
 
     }
 
-    private fun updateGoals (str : String) {
-        val editor = sharedPrefs.edit()
-        editor.putStringSet("Goals", goalsViewModel.goals.value!!.keys)
-        editor.apply()
-    }
 
     private fun updateDailyTotal (int : Int) {
         val editor = sharedPrefs.edit()
