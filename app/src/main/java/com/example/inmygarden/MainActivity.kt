@@ -1,12 +1,15 @@
 package com.example.inmygarden
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.ViewModelProvider
 import com.example.inmygarden.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
@@ -19,16 +22,17 @@ private lateinit var binding: ActivityMainBinding
 // View Model for keeping track of goals and their progress
 private lateinit var goalsViewModel: GoalsViewModel
 // View Model for keeping track of garden state
-private lateinit var gardenviewModel: GardenViewModel
-
-
 private lateinit var gardenViewModel: GardenViewModel
 // Receiver for monitoring date changes
 private lateinit var dateReceiver: DateChangeReceiver
+// Shared preferences for storing data on goals and growth stage
+private lateinit var sharedPrefs: SharedPreferences
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sharedPrefs = this.getSharedPreferences("application", Context.MODE_PRIVATE)
 
         // Use the provided ViewBinding class to inflate the layout.
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -41,19 +45,19 @@ class MainActivity : AppCompatActivity() {
         // Tie the GoalsViewModel to the MainActivity lifecycle
         goalsViewModel.bindToActivityLifecycle(this)
         // Either sets goals to defaults or retrieves goals set by user
-        goalsViewModel.loadData()
+        goalsViewModel.loadData(sharedPrefs)
 
         // Create garden view model
         gardenViewModel = ViewModelProvider(this)[GardenViewModel::class.java]
         // Tie the GardenViewModel to the MainActivity lifecycle
         gardenViewModel.bindToActivityLifecycle(this)
         // Either sets goals to defaults or retrieves goals set by user
-        gardenViewModel.loadData()
+        gardenViewModel.loadData(sharedPrefs)
 
         // Initialize the broadcast receiver with the garden viewmodel
         dateReceiver = DateChangeReceiver(goalsViewModel)
 
-       // goalsViewModel.setDefaultGoals()
+        // goalsViewModel.setDefaultGoals()
 
         // Call function that watches for changes in the daily goal completion total
         beginObservingGoals()
@@ -69,10 +73,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(startGardenIntent)
         }
 
-        /*
-        // Either sets goals to defaults or retrieves goals set by user
-        goalsViewModel.setDefaultGoals()
+        binding.testGoalsButton.setOnClickListener {
+            goalsViewModel.testGoalsComplete()
+        }
 
+<<<<<<< HEAD
         */
 
 
@@ -81,6 +86,12 @@ class MainActivity : AppCompatActivity() {
 
 
 
+=======
+        binding.testDaysButton.setOnClickListener {
+            gardenViewModel.testDayComplete()
+            goalsViewModel.testDayComplete()
+        }
+>>>>>>> a92366e657e367c1d9c2a2711024e0bdf5f0bf0c
     }
 
     override fun onStart() {
@@ -100,31 +111,7 @@ class MainActivity : AppCompatActivity() {
          * The following if else block determines the value to be used for deciding which image
          * to display.
          */
-        var stageNum: Int // Will determine image to display depending on stage of growth
-        val currDate = LocalDate.now()
-
-        // checks if goals were completed today
-        if (gardenViewModel.lastDayGrown.value?.dayOfYear == currDate.dayOfYear &&
-            gardenViewModel.lastDayGrown.value?.year == currDate.year) {
-            stageNum = gardenViewModel.daysGrown.value?.minus(1)!!
-        // Check if goals have been completed 7 days in a row
-        // Days grown would have been incremented the day before, but now we grow/update
-        } else if (gardenViewModel.daysGrown.value!! == 8){
-            finishPlant()
-            stageNum = gardenViewModel.daysGrown.value!!
-        } else {
-            stageNum = gardenViewModel.daysGrown.value!!
-        }
-
-        when (stageNum) {
-            1 -> binding.flower.setImageResource(R.drawable.flower1)
-            2 -> binding.flower.setImageResource(R.drawable.flower2)
-            3 -> binding.flower.setImageResource(R.drawable.flower3)
-            4 -> binding.flower.setImageResource(R.drawable.flower4)
-            5 -> binding.flower.setImageResource(R.drawable.flower5)
-            6 -> binding.flower.setImageResource(R.drawable.flower6)
-            7 -> binding.flower.setImageResource(R.drawable.flower7)
-        }
+        updateImage()
     }
 
     override fun onStop() {
@@ -134,6 +121,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun finishPlant() {
+        Log.i("Main", "growth complete")
+        sendBroadcast(Intent("finished"))
         gardenViewModel.growthComplete()
     }
 
@@ -199,24 +188,27 @@ class MainActivity : AppCompatActivity() {
                     fillCheckbox(arrayOf(1, 2, 3), true)
                     growthDay = true
                     goalsCompletedSnackbar()
-                } else if (completed % (oneThird * 2) == 0) { // two-thirds of goals completed
+                } else if (completed > 0 &&
+                    completed >= (oneThird * 2)) { // two-thirds of goals completed
                     // fill first and second checkbox
                     fillCheckbox(arrayOf(1, 2), true)
                     // empty last checkbox
                     fillCheckbox(arrayOf(3), false)
                     growthDay = false
-                } else if (completed % oneThird == 0) { // one third of goals completed
+                } else if (completed > 0 &&
+                    completed >= oneThird) { // one third of goals completed
                     // fill first checkbox
                     fillCheckbox(arrayOf(1), true)
                     // empty other two checkboxes
                     fillCheckbox(arrayOf(2, 3), false)
                     growthDay = false
-                } else { // no goals completed
+                } else { // fewer than 1/3 of goals completed
                     // empty all checkboxes
                     fillCheckbox(arrayOf(1, 2, 3), false)
                     growthDay = false
                 }
             } else {
+                fillCheckbox(arrayOf(1, 2, 3), false)
                 addGoalsSnackbar()
             }
 
@@ -225,7 +217,8 @@ class MainActivity : AppCompatActivity() {
              * Daily goals are no longer completed due to the addition of new daily goals
              * Update view model
              */
-            gardenViewModel.updateGrowthDay(growthDay)
+            gardenViewModel.updateGrowthDay(growthDay, sharedPrefs)
+            updateImage()
         }
 
         goalsViewModel.dailyTotal.observe(this) {
@@ -239,6 +232,35 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateImage() {
+        var stageNum: Int // Will determine image to display depending on stage of growth
+        val currDate = LocalDate.now()
+
+        // checks if goals were completed today
+        if (gardenViewModel.lastDayGrown.value?.dayOfYear == currDate.dayOfYear &&
+            gardenViewModel.lastDayGrown.value?.year == currDate.year) {
+            stageNum = gardenViewModel.daysGrown.value?.minus(1)!!
+            // Check if goals have been completed 7 days in a row
+            // Days grown would have been incremented the day before, but now we grow/update
+        } else if (gardenViewModel.daysGrown.value!! >= 8) {
+            finishPlant()
+            congratulationsDialog()
+            stageNum = gardenViewModel.daysGrown.value!!
+        } else {
+            stageNum = gardenViewModel.daysGrown.value!!
+        }
+
+        when (stageNum) {
+            1 -> binding.flower.setImageResource(R.drawable.flower1)
+            2 -> binding.flower.setImageResource(R.drawable.flower2)
+            3 -> binding.flower.setImageResource(R.drawable.flower3)
+            4 -> binding.flower.setImageResource(R.drawable.flower4)
+            5 -> binding.flower.setImageResource(R.drawable.flower5)
+            6 -> binding.flower.setImageResource(R.drawable.flower6)
+            7 -> binding.flower.setImageResource(R.drawable.flower7)
+        }
+    }
+
     /*
      * Used by the dailyComplete goals observer to update the number of checkboxes to fill.
      * Passed in is an array and a boolean.
@@ -248,23 +270,23 @@ class MainActivity : AppCompatActivity() {
     private fun fillCheckbox(pos: Array<Int>, fill: Boolean) {
         if (pos.contains(1)) {
             if (fill) {
-                binding.waterCheckbox.setImageDrawable(R.drawable.checkbox_filled.toDrawable())
+                binding.waterCheckbox.setImageResource(R.drawable.checkbox_filled)
             } else {
-                binding.waterCheckbox.setImageDrawable(R.drawable.checkbox_empty.toDrawable())
+                binding.waterCheckbox.setImageResource(R.drawable.checkbox_empty)
             }
         }
         if (pos.contains(2)) {
             if (fill) {
-                binding.sunCheckbox.setImageDrawable(R.drawable.checkbox_filled.toDrawable())
+                binding.sunCheckbox.setImageResource(R.drawable.checkbox_filled)
             } else {
-                binding.sunCheckbox.setImageDrawable(R.drawable.checkbox_empty.toDrawable())
+                binding.sunCheckbox.setImageResource(R.drawable.checkbox_empty)
             }
         }
         if (pos.contains(3)) {
             if (fill) {
-                binding.foodCheckbox.setImageDrawable(R.drawable.checkbox_filled.toDrawable())
+                binding.foodCheckbox.setImageResource(R.drawable.checkbox_filled)
             } else {
-                binding.foodCheckbox.setImageDrawable(R.drawable.checkbox_empty.toDrawable())
+                binding.foodCheckbox.setImageResource(R.drawable.checkbox_empty)
             }
         }
     }
@@ -288,6 +310,16 @@ class MainActivity : AppCompatActivity() {
         Snackbar.make(binding.flowerFrame,
             "Goals Completed! Check your plant's growth tomorrow!",
             Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun congratulationsDialog() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.congrats_title)
+            .setMessage(R.string.congrats_text)
+            .setPositiveButton("OKAY") { dialog, which ->
+
+            }
+            .show()
     }
 
     // inflate the menu to the screen

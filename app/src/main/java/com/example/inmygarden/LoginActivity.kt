@@ -26,13 +26,13 @@ class LoginActivity : AppCompatActivity() {
             signinWithFireBase(email, password)
         }
 
-        binding.singupBtn.setOnClickListener {
+        binding.signup.setOnClickListener {
             // open the signup activity
             val intent = Intent(this@LoginActivity, SignupActivity::class.java)
             startActivity(intent)
         }
 
-        binding.resetBtn.setOnClickListener {
+        binding.forgotPassword.setOnClickListener {
             val intent = Intent(this@LoginActivity, PasswordResetActivity::class.java)
             startActivity(intent)
         }
