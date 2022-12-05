@@ -49,6 +49,7 @@
     <string name="forgot_password">Forgot password ?</string>
     <string name="sing_up">Sing up</string>
     <string name="Back">Back</string>
+    <string name="delete_all">Reset All</string>
 
 
 </resources>

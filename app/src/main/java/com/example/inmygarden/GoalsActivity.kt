@@ -41,20 +41,7 @@ class GoalsActivity : AppCompatActivity() {
                 MainActivity.goalsViewModel.addGoal(temp, -1)
                 MainActivity.goalsViewModel.addDailyTotal()
 
-                /*
-                if (list == null) {
-                    editor.putStringSet("Goals", MainActivity.goalsViewModel.goals.value!!.keys)
-                    editor.apply()
-                } else {
-                    editor.remove("Goals").commit()
-                    editor.putStringSet("Goals", MainActivity.goalsViewModel.goals.value!!.keys)
-                    editor.apply()
-                }
-
-                 */
-                updateData()
-
-                updateDailyTotal(MainActivity.goalsViewModel.dailyTotal.value!!)
+                MainActivity.goalsViewModel.updateData(sharedPrefs)
 
                 findViewById<TextView>(R.id.text_custom).text = ""
                 Toast.makeText(this, "Goal Added!", Toast.LENGTH_SHORT).show()
@@ -64,11 +51,7 @@ class GoalsActivity : AppCompatActivity() {
 
 
         findViewById<Button>(R.id.the_home_button).setOnClickListener {
-            /*
-            val intent = Intent(this@GoalsActivity, MainActivity::class.java)
-            startActivity(intent)
 
-             */
             val intent = Intent(this@GoalsActivity, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             startActivityIfNeeded(intent, 0)
@@ -78,7 +61,6 @@ class GoalsActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.the_goals_button).setOnClickListener {
-            //updateData()
             val intent = Intent(this@GoalsActivity, ManageGoalsActivity::class.java)
             startActivity(intent)
 
@@ -93,26 +75,5 @@ class GoalsActivity : AppCompatActivity() {
 
         }
     }
-
-    private fun updateDailyTotal (int : Int) {
-        val editor = sharedPrefs.edit()
-        editor.putInt(R.string.daily_total.toString(), int)
-        editor.apply()
-    }
-
-    private fun updateData () {
-        val editor = sharedPrefs.edit()
-
-
-        MainActivity.goalsViewModel.goals.observe(this) {
-
-            editor.putStringSet("Goals", MainActivity.goalsViewModel.goals.value!!.keys)
-            editor.commit()
-        }
-
-    }
-
-
-
 
 }

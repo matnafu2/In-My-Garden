@@ -179,6 +179,26 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
         }
     }
 
+    internal fun updateData (pref : SharedPreferences) {
+        val editor = pref.edit()
+
+        editor.putStringSet("Goals", _goals.value!!.keys)
+        editor.commit()
+
+        editor.putInt(R.string.daily_total.toString(), _dailyTotal.value!!)
+        editor.commit()
+
+        editor.putInt(R.string.daily_complete.toString(), _dailyComplete.value!!)
+        editor.commit()
+
+    }
+
+    internal fun resetGoals() {
+        _dailyComplete.value = 0
+        _dailyTotal.value = 0
+        _goals.value!!.clear()
+    }
+
     internal fun testDayComplete() {
         dateUpdated()
     } /*

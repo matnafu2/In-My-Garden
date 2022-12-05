@@ -1,5 +1,6 @@
 package com.example.inmygarden
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -33,8 +34,6 @@ class ManageGoalsActivity : AppCompatActivity() {
         */
 
         val goals = sharedPrefs.getStringSet("Goals", mutableSetOf())
-        val editor = sharedPrefs.edit()
-        var newList : Set<String>
 
         goals!!.forEach { str ->
             val but = Button(this)
@@ -48,16 +47,14 @@ class ManageGoalsActivity : AppCompatActivity() {
                         R.id.delete -> {
                             MainActivity.goalsViewModel.subDailyTotal()
                             MainActivity.goalsViewModel.goals.value!!.remove(str, -1)
-
-                            updateData()
-
-
+                            MainActivity.goalsViewModel.updateData(sharedPrefs)
                             Toast.makeText(this, "Goal deleted", Toast.LENGTH_SHORT).show()
                             findViewById<LinearLayout>(R.id.goals_root).removeView(but)
                         }
                         R.id.complete -> {
                             MainActivity.goalsViewModel.addDailyComplete()
-                            updateDailyComplete(MainActivity.goalsViewModel.dailyComplete.value!!)
+                            MainActivity.goalsViewModel.goals.value!!.remove(str, -1)
+                            MainActivity.goalsViewModel.updateData(sharedPrefs)
                             Toast.makeText(this, "Goal Completed", Toast.LENGTH_SHORT)
                                 .show()
                             findViewById<LinearLayout>(R.id.goals_root).removeView(but)
@@ -67,47 +64,20 @@ class ManageGoalsActivity : AppCompatActivity() {
                     true
                 }
                 pop.show()
-
             }
         }
 
         findViewById<Button>(R.id.goals_back).setOnClickListener {
-
-            /*
-            val intent = Intent(this@ManageGoalsActivity, GoalsActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-            startActivityIfNeeded(intent, 0)
-
-             */
-
-            // updateData()
             val intent = Intent(this@ManageGoalsActivity, GoalsActivity::class.java)
             startActivity(intent)
         }
 
+        findViewById<Button>(R.id.delete_all).setOnClickListener {
 
-
-
-    }
-
-    private fun updateDailyComplete (int : Int) {
-        val editor = sharedPrefs.edit()
-        editor.putInt(R.string.daily_complete.toString(), int)
-        editor.apply()
-    }
-
-    private fun updateData () {
-        val editor = sharedPrefs.edit()
-
-        MainActivity.goalsViewModel.goals.observe(this) {
-            editor.remove("Goals")
-            editor.commit()
-            editor.putStringSet("Goals", MainActivity.goalsViewModel.goals.value!!.keys)
-            editor.commit()
+            MainActivity.goalsViewModel.resetGoals()
+            MainActivity.goalsViewModel.updateData(sharedPrefs)
+            findViewById<LinearLayout>(R.id.goals_root).removeAllViews()
         }
 
-
     }
-
-
 }
