@@ -2,6 +2,10 @@ package com.example.inmygarden
 
 import android.content.SharedPreferences
 import androidx.lifecycle.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import java.time.LocalDate
 
 class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
@@ -38,6 +42,15 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
         _goals.value = HashMap<String, Int>()
         _dailyComplete.value = 0
         _dailyTotal.value = 3
+    }
+    //firebase database vars
+    private var database: DatabaseReference =
+        Firebase.database.reference
+    private var userId: String =
+        FirebaseAuth.getInstance().uid.toString()
+
+    internal fun loadData() {
+
     }
 
     /*

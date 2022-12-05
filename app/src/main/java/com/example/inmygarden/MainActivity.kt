@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDate
 import java.util.*
+import kotlin.concurrent.thread
 
 // Binding to XML layout
 private lateinit var binding: ActivityMainBinding
@@ -52,7 +53,10 @@ class MainActivity : AppCompatActivity() {
         // Tie the GardenViewModel to the MainActivity lifecycle
         gardenViewModel.bindToActivityLifecycle(this)
         // Either sets goals to defaults or retrieves goals set by user
+
+        //gardenViewModel.loadData()
         gardenViewModel.loadData(sharedPrefs)
+        updateImage()
 
         // Initialize the broadcast receiver with the garden viewmodel
         dateReceiver = DateChangeReceiver(goalsViewModel)

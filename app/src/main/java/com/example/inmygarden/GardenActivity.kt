@@ -119,7 +119,7 @@ class GardenActivity : AppCompatActivity() {
                 makeToast()
                 updateFirebase(flower.id.toString(), true)
                 //updateSharedPreferences(flower.id.toString(), true)
-                Log.i("IMG", "flower set to visible")
+                //Log.i("IMG", "flower set to visible")
                 check = true
                 break
             }
@@ -145,7 +145,7 @@ class GardenActivity : AppCompatActivity() {
         for (flower in flowerArray) {
             database.child("flowers").child(userId)
                 .child(flower.id.toString()).get().addOnSuccessListener {
-                    Log.i("firebase", "got value ${it.value}")
+                    //Log.i("firebase", "got value ${it.value}")
                     if (it.value == null) {
                         database.child("flowers").child(userId).child(flower.id.toString())
                             .setValue(false)
@@ -158,11 +158,6 @@ class GardenActivity : AppCompatActivity() {
                     database.child("flowers").child(userId).child(flower.id.toString())
                         .setValue(false)
                 }
-        }
-        database.child("flowers").child(userId).get().addOnSuccessListener {
-            Log.i("firebase", "read")
-        }.addOnFailureListener {
-            Log.i("firebase", "failed")
         }
     }
 
