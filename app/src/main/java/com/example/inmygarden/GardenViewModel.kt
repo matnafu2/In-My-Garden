@@ -203,9 +203,7 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
     }
     internal fun removeFinishedPlants(sharedPrefs: SharedPreferences) {
         _plantsFinished.value = 0
-        val editor = sharedPrefs.edit()
-        editor.putInt("plantsFinished", 0)
-        editor.apply()
-        Log.i("removeFinishedPlants", "changed plantsFinished to 0")
+        val userData = database.child("gardenData").child(userId)
+        userData.child("plantsFinished").setValue(0)
     }
 }
