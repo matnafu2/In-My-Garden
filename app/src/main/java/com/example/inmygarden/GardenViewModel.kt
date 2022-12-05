@@ -59,7 +59,7 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
     /*
      * Either new data needs to be set, or data created from previous sessions needs to be loaded.
      */
-    internal fun loadData(mainActivity: MainActivity) {
+    internal fun loadData() {
         _plantFinished.postValue(false) // This is determined in main activity
         val userData = database.child("gardenData").child(userId)
         var lastDay = ""
@@ -89,7 +89,15 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
             Log.i("loadData", "firebase error")
         }
     }
-
+    internal fun loadPlantsFinishedData(){
+        val userData = database.child("gardenData").child(userId)
+        userData.child("plantsFinished").get().addOnSuccessListener {
+            if (it.value != null) {
+                _plantsFinished.value = (it.value as Long).toInt()
+                Log.i("loadPlantsFinished", "got value ${it.value}")
+            }
+        }
+    }
     internal fun loadData(sharedPrefs: SharedPreferences) {
         var isPrevData = false
         if (sharedPrefs.contains(R.string.days_grown.toString())) {
@@ -108,7 +116,8 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
             // load last day grown
             val lastDay = sharedPrefs.getString(R.string.last_day_grown.toString(), "01/01/1900")
             _lastDayGrown.value = LocalDate.parse(lastDay)
-            _plantsFinished.value = sharedPrefs.getInt("plantsFinished", 0)
+            loadPlantsFinishedData()
+            //_plantsFinished.value = sharedPrefs.getInt("plantsFinished", 0)
             Log.i("loadData", "got plantsFinished value as ${plantsFinished.value}")
         }
     }
@@ -116,9 +125,11 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
         _plantFinished.value = true
         _plantsFinished.value = _plantsFinished.value?.plus(1)
         _daysGrown.value = 1
+        val userData = database.child("gardenData").child(userId)
+        userData.child("plantsFinished").setValue(_plantsFinished.value)
         val editor = sharedPrefs.edit()
         editor.putInt(R.string.days_grown.toString(), _daysGrown.value!!)
-        editor.putInt("plantsFinished", _plantsFinished.value!!)
+        //editor.putInt("plantsFinished", _plantsFinished.value!!)
         Log.i("growthComplete", "changed plantsFinished to ${_plantsFinished.value!!}")
         editor.apply()
     }
