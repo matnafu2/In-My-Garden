@@ -61,7 +61,7 @@ class ManageGoalsActivity : AppCompatActivity() {
                                     goalsViewModel.goals.value?.remove(key, value)
 
                                     //increment the amount of goals they completed
-                                    goalsViewModel.dailyComplete.value?.plus(1)
+                                    goalsViewModel.addDailyComplete()
                                     Toast.makeText(this, "Goal Completed", Toast.LENGTH_SHORT).show()
                                     findViewById<LinearLayout>(R.id.goals_root).removeView(but)
 
@@ -97,7 +97,7 @@ class ManageGoalsActivity : AppCompatActivity() {
                                 }
                                 R.id.complete -> {
                                     goalsViewModel.goals.value?.remove(key, value)
-                                    goalsViewModel.dailyComplete.value?.plus(1)
+                                    goalsViewModel.addDailyComplete()
                                     Toast.makeText(this, "Goal Completed", Toast.LENGTH_SHORT).show()
                                     findViewById<LinearLayout>(R.id.goals_root).removeView(but)
 
@@ -126,7 +126,7 @@ class ManageGoalsActivity : AppCompatActivity() {
                                 }
                                 R.id.complete -> {
                                     goalsViewModel.goals.value?.remove(key, value)
-                                    goalsViewModel.dailyComplete.value?.plus(1)
+                                    goalsViewModel.addDailyComplete()
                                     Toast.makeText(this, "Goal Completed", Toast.LENGTH_SHORT).show()
                                     findViewById<LinearLayout>(R.id.goals_root).removeView(but)
 
@@ -154,7 +154,7 @@ class ManageGoalsActivity : AppCompatActivity() {
                                 }
                                 R.id.complete -> {
                                     goalsViewModel.goals.value?.remove(key, value)
-                                    goalsViewModel.dailyComplete.value?.plus(1)
+                                    goalsViewModel.addDailyComplete()
                                     Toast.makeText(this, "Goal Completed", Toast.LENGTH_SHORT).show()
                                     findViewById<LinearLayout>(R.id.goals_root).removeView(but)
 

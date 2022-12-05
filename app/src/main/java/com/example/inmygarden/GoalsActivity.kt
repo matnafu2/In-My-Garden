@@ -21,9 +21,6 @@ class GoalsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_goals)
 
-        //i did this for some reason
-        val i = 1
-
         //here i am putting actions for each button pres
 //        goalsViewModel = ViewModelProvider(mainActivity)[GoalsViewModel::class.java]
         goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
@@ -91,7 +88,7 @@ class GoalsActivity : AppCompatActivity() {
                 Toast.makeText(this, "Not a valid goal!", Toast.LENGTH_SHORT).show()
             } else {
                 goalsViewModel.goals.value?.put(temp, -1)
-                goalsViewModel.dailyTotal.value?.plus(i)
+                goalsViewModel.addDailyTotal()
                 findViewById<TextView>(R.id.text_custom).text = ""
                 Toast.makeText(this, "Goal added!", Toast.LENGTH_SHORT).show()
             }
