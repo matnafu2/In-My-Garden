@@ -3,6 +3,12 @@ package com.example.inmygarden
 import android.content.SharedPreferences
 import androidx.lifecycle.*
 import java.time.LocalDate
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
 
@@ -15,6 +21,11 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
         MutableLiveData<Int>()
     internal val daysGrown: LiveData<Int>
         get() = _daysGrown
+
+    private var database: DatabaseReference =
+        Firebase.database.reference
+    private var userId: String =
+        FirebaseAuth.getInstance().uid.toString()
 
     private val _plantFinished: MutableLiveData<Boolean> =
         MutableLiveData<Boolean>(false)
@@ -42,6 +53,13 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
     /*
      * Either new data needs to be set, or data created from previous sessions needs to be loaded.
      */
+    internal fun loadData() {
+        var isPrevData = false
+
+        if (sharedPrefs.contains(R.string.days_grown.toString())) {
+            isPrevData = true
+        }
+    }
     internal fun loadData(sharedPrefs: SharedPreferences) {
         var isPrevData = false
         if (sharedPrefs.contains(R.string.days_grown.toString())) {

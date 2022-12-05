@@ -24,7 +24,7 @@ class GardenActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGardenBinding
     private lateinit var flowerArray: Array<ImageView>
     private lateinit var potArray: Array<ImageView>
-    //private lateinit var database: DatabaseReference
+    private lateinit var database: DatabaseReference
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var userId: String
     private lateinit var gardenViewModel: GardenViewModel
@@ -32,8 +32,8 @@ class GardenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //database = Firebase.database.reference
-        //userId = FirebaseAuth.getInstance().uid.toString()
+        database = Firebase.database.reference
+        userId = FirebaseAuth.getInstance().uid.toString()
 
         broadcastReceiver = plantFinishedReceiver(this)
         sharedPreferences = this.getSharedPreferences("application", Context.MODE_PRIVATE)
@@ -57,8 +57,7 @@ class GardenActivity : AppCompatActivity() {
 
         potArray = arrayOf(binding.pot1, binding.pot2, binding.pot3, binding.pot4,
             binding.pot5, binding.pot6, binding.pot7, binding.pot8, binding.pot9)
-
-        pullFromSharedPreferences()
+        pullFromFirebase()
     }
     override fun onStart() {
         super.onStart()
@@ -67,7 +66,7 @@ class GardenActivity : AppCompatActivity() {
     }
     override fun onResume() {
         super.onResume()
-        pullFromSharedPreferences()
+        pullFromFirebase()
     }
     override fun onStop() {
         unregisterReceiver(broadcastReceiver)
@@ -118,7 +117,8 @@ class GardenActivity : AppCompatActivity() {
             if (flower.visibility == View.INVISIBLE) {
                 flower.visibility = View.VISIBLE
                 makeToast()
-                updateSharedPreferences(flower.id.toString(), true)
+                updateFirebase(flower.id.toString(), true)
+                //updateSharedPreferences(flower.id.toString(), true)
                 Log.i("IMG", "flower set to visible")
                 check = true
                 break
@@ -138,32 +138,41 @@ class GardenActivity : AppCompatActivity() {
         Toast.makeText(applicationContext, "Cleared Garden",
             Toast.LENGTH_SHORT).show()
     }
-    private fun updateSharedPreferences(id: String, value: Boolean) {
-        val editor = sharedPreferences.edit()
-        editor.putBoolean(id, value)
-        editor.apply()
-        //Log.i("IMG", "$id is stored as visible")
+    private fun updateFirebase(flowerId: String, visible: Boolean) {
+        database.child("flowers").child(userId).child(flowerId).setValue(visible)
     }
-    private fun pullFromSharedPreferences() {
+    private fun pullFromFirebase() {
         for (flower in flowerArray) {
-            if (sharedPreferences.getBoolean(flower.id.toString(), false)) {
-                Log.i("IMG", "${(flower.id.toString())} is visible ")
-                flower.visibility = View.VISIBLE
-            }
-            else {
-                //Log.i("IMG", "${(flower.id.toString())} is invisible ")
-            }
+            database.child("flowers").child(userId)
+                .child(flower.id.toString()).get().addOnSuccessListener {
+                    Log.i("firebase", "got value ${it.value}")
+                    if (it.value == null) {
+                        database.child("flowers").child(userId).child(flower.id.toString())
+                            .setValue(false)
+                        flower.visibility = View.INVISIBLE
+                    }
+                    else if (it.value == true) {
+                        flower.visibility = View.VISIBLE
+                    }
+                }.addOnFailureListener {
+                    database.child("flowers").child(userId).child(flower.id.toString())
+                        .setValue(false)
+                }
+        }
+        database.child("flowers").child(userId).get().addOnSuccessListener {
+            Log.i("firebase", "read")
+        }.addOnFailureListener {
+            Log.i("firebase", "failed")
         }
     }
 
     private fun clearGarden() {
-        val editor = sharedPreferences.edit()
         for (flower in flowerArray) {
             flower.visibility = View.INVISIBLE
-            editor.putBoolean(flower.id.toString(), false)
+            database.child("flowers").child(userId).child(flower.id.toString())
+                .setValue(false)
         }
         makeClearToast()
-        editor.apply()
     }
     class plantFinishedReceiver(private val activity: GardenActivity) :
         BroadcastReceiver(){
