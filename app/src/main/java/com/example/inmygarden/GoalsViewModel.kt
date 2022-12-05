@@ -166,10 +166,10 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
             _dailyComplete.value = (temp + 1)
         }
     }
-    /*
+
     internal fun testDayComplete() {
         dateUpdated()
-    }
+    } /*
     val goalsMapListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
 

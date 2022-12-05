@@ -20,6 +20,9 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
      */
     private val _plantsFinished: MutableLiveData<Int> =
         MutableLiveData<Int>(0)
+    internal val plantsFinished: LiveData<Int>
+        get() = _plantsFinished
+
     private val _daysGrown: MutableLiveData<Int> =
         MutableLiveData<Int>(1)
     internal val daysGrown: LiveData<Int>
@@ -97,6 +100,7 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
             _daysGrown.value = 1
             _plantFinished.value = false
             _lastDayGrown.value = LocalDate.now().minusDays(1)
+            _plantsFinished.value = 0
         } else {
             _plantFinished.value = false // This is determined in main activity
             // load daysGrown
@@ -104,19 +108,25 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
             // load last day grown
             val lastDay = sharedPrefs.getString(R.string.last_day_grown.toString(), "01/01/1900")
             _lastDayGrown.value = LocalDate.parse(lastDay)
+            _plantsFinished.value = sharedPrefs.getInt("plantsFinished", 0)
+            Log.i("loadData", "got plantsFinished value as ${plantsFinished.value}")
         }
     }
     internal fun growthComplete(sharedPrefs: SharedPreferences) {
         _plantFinished.value = true
+        _plantsFinished.value = _plantsFinished.value?.plus(1)
         _daysGrown.value = 1
         val editor = sharedPrefs.edit()
         editor.putInt(R.string.days_grown.toString(), _daysGrown.value!!)
+        editor.putInt("plantsFinished", _plantsFinished.value!!)
+        Log.i("growthComplete", "changed plantsFinished to ${_plantsFinished.value!!}")
         editor.apply()
     }
 
     internal fun resetPlantFinished() {
         _plantFinished.value = false
     }
+    /*
     internal fun updateGrowthDay(growthDay: Boolean) {
         Log.i("updateGrowthDay", "_daysGrown = ${(_daysGrown.value)}")
         val userData = database.child("gardenData").child(userId)
@@ -148,7 +158,7 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
 
         //database.child("flowers").child(userId).child(flowerId).setValue(visible)
 
-    }
+    }*/
 
     internal fun updateGrowthDay(growthDay: Boolean, sharedPrefs: SharedPreferences) {
         // Daily goals have been successfully completed
@@ -179,5 +189,12 @@ class GardenViewModel : ViewModel(), DefaultLifecycleObserver {
 
     internal fun testDayComplete() {
         _lastDayGrown.value = LocalDate.now().minusDays(1)
+    }
+    internal fun removeFinishedPlants(sharedPrefs: SharedPreferences) {
+        _plantsFinished.value = 0
+        val editor = sharedPrefs.edit()
+        editor.putInt("plantsFinished", 0)
+        editor.apply()
+        Log.i("removeFinishedPlants", "changed plantsFinished to 0")
     }
 }

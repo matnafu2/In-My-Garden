@@ -23,7 +23,7 @@ private lateinit var binding: ActivityMainBinding
 // View Model for keeping track of goals and their progress
 private lateinit var goalsViewModel: GoalsViewModel
 // View Model for keeping track of garden state
-private lateinit var gardenViewModel: GardenViewModel
+//private lateinit var gardenViewModel: GardenViewModel
 // Receiver for monitoring date changes
 private lateinit var dateReceiver: DateChangeReceiver
 // Shared preferences for storing data on goals and growth stage
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         goalsViewModel.loadData(sharedPrefs)
 
         // Create garden view model
-        gardenViewModel = ViewModelProvider(this)[GardenViewModel::class.java]
+        //gardenViewModel = ViewModelProvider(this)[GardenViewModel::class.java]
         // Tie the GardenViewModel to the MainActivity lifecycle
         gardenViewModel.bindToActivityLifecycle(this)
         // Either sets goals to defaults or retrieves goals set by user
@@ -336,5 +336,8 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+    companion object {
+        val gardenViewModel = GardenViewModel()
     }
 }
