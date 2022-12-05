@@ -10,12 +10,10 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 
 
 class GoalsActivity : AppCompatActivity() {
 
-    //private lateinit var goalsViewModel: GoalsViewModel
     private lateinit var sharedPrefs: SharedPreferences
 
 
@@ -26,7 +24,6 @@ class GoalsActivity : AppCompatActivity() {
         sharedPrefs = this.getSharedPreferences("application", Context.MODE_PRIVATE)
 
         //here i am putting actions for each button pres
-        //goalsViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
         MainActivity.goalsViewModel.loadData(sharedPrefs)
 
 
