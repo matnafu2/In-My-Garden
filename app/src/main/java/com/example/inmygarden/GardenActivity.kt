@@ -48,10 +48,12 @@ class GardenActivity : AppCompatActivity() {
         potArray = arrayOf(binding.pot1, binding.pot2, binding.pot3, binding.pot4,
             binding.pot5, binding.pot6, binding.pot7, binding.pot8, binding.pot9)
         loadFlowers()
+        fetchPotColors()
     }
     override fun onResume() {
         super.onResume()
         loadFlowers()
+        fetchPotColors()
     }
 
     private fun loadFlowers() {
@@ -73,6 +75,7 @@ class GardenActivity : AppCompatActivity() {
     private fun changePotColors() {
         Toast.makeText(applicationContext, "Click on a pot to change its color!",
             Toast.LENGTH_SHORT).show()
+        val editor = sharedPrefs.edit()
         for (pot in potArray) {
             pot.setOnClickListener {
                 binding.overlay.visibility = View.VISIBLE
@@ -82,27 +85,49 @@ class GardenActivity : AppCompatActivity() {
                 binding.blue.setOnClickListener {
                     binding.potSample.setColorFilter(Color.CYAN, android.graphics.PorterDuff.Mode.MULTIPLY)
                     pot.setColorFilter(Color.CYAN, android.graphics.PorterDuff.Mode.MULTIPLY)
+                    editor.putInt(pot.id.toString(), Color.CYAN)
+                    editor.commit()
                 }
                 binding.red.setOnClickListener {
                     binding.potSample.setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.MULTIPLY)
                     pot.setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.MULTIPLY)
+                    editor.putInt(pot.id.toString(), Color.RED)
+                    editor.commit()
                 }
                 binding.yellow.setOnClickListener {
                     binding.potSample.setColorFilter(Color.YELLOW, android.graphics.PorterDuff.Mode.MULTIPLY)
                     pot.setColorFilter(Color.YELLOW, android.graphics.PorterDuff.Mode.MULTIPLY)
+                    editor.putInt(pot.id.toString(), Color.YELLOW)
+                    editor.commit()
                 }
                 binding.brown.setOnClickListener {
                     pot.clearColorFilter()
                     binding.potSample.clearColorFilter()
+                    editor.putInt(pot.id.toString(), 0)
+                    editor.commit()
                 }
             }
         }
+        editor.apply()
         binding.applyChanges.setOnClickListener {
             binding.potSample.clearColorFilter()
             binding.overlay.visibility = View.INVISIBLE
             binding.clearGarden.visibility = View.VISIBLE
             binding.changeColor.visibility = View.VISIBLE
 
+        }
+
+    }
+
+    private fun fetchPotColors() {
+        for (pot in potArray) {
+            val color = sharedPrefs.getInt(pot.id.toString(), 0)
+            if (color == 0) {
+                pot.clearColorFilter()
+            }
+            else {
+                pot.setColorFilter(color, android.graphics.PorterDuff.Mode.MULTIPLY)
+            }
         }
 
     }
@@ -118,26 +143,7 @@ class GardenActivity : AppCompatActivity() {
         Toast.makeText(applicationContext, "Cleared Garden",
             Toast.LENGTH_SHORT).show()
     }
-    /*
-    private fun pullFromFirebase() {
-        for (flower in flowerArray) {
-            database.child("flowers").child(userId)
-                .child(flower.id.toString()).get().addOnSuccessListener {
-                    //Log.i("firebase", "got value ${it.value}")
-                    if (it.value == null) {
-                        database.child("flowers").child(userId).child(flower.id.toString())
-                            .setValue(false)
-                        flower.visibility = View.INVISIBLE
-                    }
-                    else if (it.value == true) {
-                        flower.visibility = View.VISIBLE
-                    }
-                }.addOnFailureListener {
-                    database.child("flowers").child(userId).child(flower.id.toString())
-                        .setValue(false)
-                }
-        }
-    } */
+
 
     private fun clearGarden() {
         for (flower in flowerArray) {
