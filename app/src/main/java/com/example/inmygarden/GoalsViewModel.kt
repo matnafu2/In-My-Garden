@@ -139,6 +139,9 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
 
     internal fun dateUpdated() {
         _dailyComplete.value = 0
+        for (key in _goals.value?.keys!!) {
+            _goals.value!![key] = false
+        }
     }
 
     internal fun testGoalsComplete() {
