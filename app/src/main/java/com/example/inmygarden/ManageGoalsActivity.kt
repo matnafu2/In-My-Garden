@@ -28,7 +28,7 @@ class ManageGoalsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_manage_goals)
         sharedPrefs = this.getSharedPreferences("application", Context.MODE_PRIVATE)
 
-        MainActivity.goalsViewModel.loadData(sharedPrefs)
+        //MainActivity.goalsViewModel.loadData(sharedPrefs)
 
 
 
@@ -85,7 +85,7 @@ class ManageGoalsActivity : AppCompatActivity() {
                             findViewById<LinearLayout>(R.id.goals_root).removeView(but)
                         }
                         R.id.complete -> {
-                            MainActivity.goalsViewModel.addDailyComplete()
+                            MainActivity.goalsViewModel.addDailyComplete(str)
                             MainActivity.goalsViewModel.updateData(sharedPrefs)
                             Toast.makeText(this, "Goal Completed", Toast.LENGTH_SHORT)
                                 .show()

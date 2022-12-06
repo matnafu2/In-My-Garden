@@ -24,7 +24,7 @@ class GoalsActivity : AppCompatActivity() {
         sharedPrefs = this.getSharedPreferences("application", Context.MODE_PRIVATE)
 
         //here i am putting actions for each button pres
-        MainActivity.goalsViewModel.loadData(sharedPrefs)
+        //MainActivity.goalsViewModel.loadData(sharedPrefs)
 
 
 
@@ -35,7 +35,7 @@ class GoalsActivity : AppCompatActivity() {
             if (temp == "") {
                 Toast.makeText(this, "Not a valid goal!", Toast.LENGTH_SHORT).show()
             } else {
-                MainActivity.goalsViewModel.addGoal(temp, -1)
+                MainActivity.goalsViewModel.addGoal(temp, false)
                 MainActivity.goalsViewModel.addDailyTotal()
 
                 MainActivity.goalsViewModel.updateData(sharedPrefs)

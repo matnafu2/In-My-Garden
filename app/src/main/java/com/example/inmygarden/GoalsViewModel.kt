@@ -19,9 +19,9 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
      * to a pair of integers. The first integer is the current progress (likely
      * beginning at 0), and the second integer is the goal.
      */
-    private val _goals: MutableLiveData<HashMap<String, Int>> =
-        MutableLiveData<HashMap<String, Int>>()
-    internal val goals: LiveData<HashMap<String, Int>>
+    private val _goals: MutableLiveData<HashMap<String, Boolean>> =
+        MutableLiveData<HashMap<String, Boolean>>()
+    internal val goals: LiveData<HashMap<String, Boolean>>
         get() = _goals
 
     // Holds the current number of completed goals for the day
@@ -43,9 +43,9 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
         get() = _lastLogin
 
     init {
-        _goals.value = HashMap<String, Int>()
+        _goals.value = HashMap<String, Boolean>()
         _dailyComplete.value = 0
-        _dailyTotal.value = 3
+        _dailyTotal.value = 0
     }
     //firebase database vars
     private var database: DatabaseReference =
@@ -54,8 +54,11 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
         FirebaseAuth.getInstance().uid.toString()
 
 
-    internal fun addDailyComplete() {
-        _dailyComplete.value = _dailyComplete.value!! + 1
+    internal fun addDailyComplete(key: String) {
+        if (!goals.value!![key]!!) {
+            _dailyComplete.value = _dailyComplete.value!! + 1
+            goals.value!![key] = true
+        }
     }
 
     internal fun addDailyTotal() {
@@ -66,8 +69,8 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
         _dailyTotal.value = _dailyTotal.value!! - 1
     }
 
-    internal fun addGoal(str : String, int : Int) {
-        _goals.value!![str] = int
+    internal fun addGoal(str : String, completed : Boolean) {
+        _goals.value!![str] = completed
     }
 
     internal  fun removeGoal(str : String) {
@@ -82,12 +85,12 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
         val userData = database.child("goals").child(userId)
         userData.child("goalsData").get().addOnSuccessListener {
             if (it.value != null) {
-                _goals.value = it.value as HashMap<String, Int>?
+                _goals.value = it.value as HashMap<String, Boolean>?
             } else {
-                _goals.value = HashMap<String, Int>()
+                _goals.value = HashMap<String, Boolean>()
             }
         }.addOnFailureListener {
-            _goals.value = HashMap<String, Int>()
+            _goals.value = HashMap<String, Boolean>()
         }
     }
     internal fun loadData(sharedPrefs: SharedPreferences) {
@@ -97,7 +100,7 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
         }
 
         if (!isPrevData) {
-            _goals.value = HashMap<String, Int>()
+            _goals.value = HashMap<String, Boolean>()
             _dailyComplete.value = 0
             _dailyTotal.value = 0
             _lastLogin.value = LocalDate.now()
@@ -107,7 +110,7 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
             // load daily complete (Need to check if it's a new day)
             val currDate = LocalDate.now()
             Log.i("currdate", "$currDate")
-            val lastDate = sharedPrefs.getString(R.string.last_day_grown.toString(), "1900-01-01")
+            val lastDate = sharedPrefs.getString(R.string.last_login_date.toString(), "1900-01-01")
 
             // if is same day as last login
             if (LocalDate.parse(lastDate).dayOfYear == currDate.dayOfYear &&
@@ -116,10 +119,13 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
             } else { // BNew day, reset completed and last date of login
                 _dailyComplete.value = 0
                 _lastLogin.value = currDate
-                sharedPrefs.edit().putString(
+                var editor = sharedPrefs.edit()
+                editor.putString(
                     R.string.last_login_date.toString(),
                     _lastLogin.value?.toString()
                 )
+                editor.commit()
+                editor.apply()
             }
 
             // load daily total
@@ -154,7 +160,14 @@ class GoalsViewModel : ViewModel(), DefaultLifecycleObserver {
 
         editor.putInt(R.string.daily_complete.toString(), _dailyComplete.value!!)
         editor.commit()
+
+        editor.putString(
+            R.string.last_login_date.toString(),
+            _lastLogin.value?.toString()
+        )
+        editor.commit()
         postMapToFirebase()
+        editor.apply()
 
     }
     internal fun postMapToFirebase () {
